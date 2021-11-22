@@ -1,8 +1,9 @@
 #include <stdlib.h>
+#include <stdio.h>
 #include "arraylist.h"
 
-
-int main(int argc, int argv[])
+// int main(int argc, int argv[])
+int main()
 {
 	/*
 		t_ArratList	arr_node;
@@ -11,53 +12,98 @@ int main(int argc, int argv[])
 	*/
 	ArrayList		*first_AList;
 
+	printf("start\n");
 	first_AList = createArrayList(42);
+
+	printf("isArrayListFull %d\n", isArrayListFull(first_AList));
+	
 
 	return (0);
 }
 
-ArrayList* createArrayList(int maxElementCount)
+ArrayList	*createArrayList(int maxElementCount)
 {
 	/*
 		element의 최대 개수를 넘겨받는다.
 	*/
 	ArrayList		*currentArrayList;	
-	ArrayListNode	*pElement;
-	int				currentElementCount;
 
-	currentElementCount = 0;
 	currentArrayList->maxElementCount = maxElementCount;
-	currentArrayList->currentElementCount = currentElementCount;
-	currentArrayList->pElement = malloc(pElement *maxElementCount);
+	currentArrayList->currentElementCount = 0;
+	currentArrayList->pElement = (ArrayListNode	*)malloc(sizeof(ArrayListNode) * maxElementCount);
 	return (currentArrayList);
+}
+
+int getArrayListLength(ArrayList* pList)
+{
+	return (pList->currentElementCount);
+}
+
+int isArrayListFull(ArrayList* pList)
+{
+	if (pList->maxElementCount == pList->currentElementCount)
+		return (TRUE);
+	else
+		return (FALSE);
 }
 
 int addALElement(ArrayList* pList, int position, ArrayListNode element)
 {
-	int tmp;
-
-	tmp = pList->pElement[position].data
-	pList->pElement[position].data = element.data;
 	/*
-		새로 할당 사이즈 2~3배
+		- position이 currentElementCount보다 큰 경우 FALSE
+		- position이 maxElementCount보다 큰경우 realloc 필요
+		  current == max && position == current
+		  딱 1만큼만 커야한다.
 
-		이미 값이 있는 특정위치에 넣는 것을 가정
-		그렇게되면 뒤로 다 밀려야한다.
-		뒤에서부터 한칸씩 뒤로 민다.
-		하지만 꽉 찬 경우에는 어떻게 처리할 것인가?
-		기존 위치의 값에 대체할것인가?		
-		-
-		array full 일때
-		보통 원소를 넣을떄
-		100개 짜리를 쓰다가 101번재
-		새로 realloc
-		기존 것 free해주고서 원소를 추가하는 방법
-		
-
-		// isArrayListFull
-		if currentElementCount < position
-			return (FALSE);
+		- position == currentElementCount 즉,맨 뒤이면 그냥 추가
+		  currentElementCount++;
+		- position < currentElementCount
+		  position이 들어갈 자리에 있는 값을 tmp에 담아둔다.
+		  currentElementCount 위치 값을 한칸 뒤로 물린다.
+		  currentElementCount 앞에 값도 뒤로 물린다. (기존 currentElementCount위치로)
+		  position위치까지 반복
 	*/
+	// 최대 크기보다 2이상 크면 FALSE return
+	if (position > pList->maxElementCount || position > getArrayListLength(pList))
+		return (FALSE);
+	// 딱 마지막 위치라면 바로 추가
+	else if (position + 1 == getArrayListLength(pList))
+		pList->pElement[position] = element;
+	// sizeup realloc, e.g) position = 7, currentElementCount == 7
+	else if (isArrayListFull(pList) && \
+			(position== getArrayListLength(pList)))
+	{
+		ArrayList	*toBeArrayListNode;
+		int			idx;
+
+		toBeArrayListNode = createArrayList(pList->maxElementCount * 2);
+		idx = 0;
+		while (idx < position)
+		{
+			toBeArrayListNode->pElement[idx] = pList->pElement[idx];
+			idx++;
+		}
+		toBeArrayListNode->pElement[position] = element;
+		deleteArrayList(pList);
+		pList = toBeArrayListNode;
+	}
+	// max 이내이면서 중간에 끼는 경우
+	else // 기존 position 위치에 있는 것은 tmp에 담는다.
+	{
+		ArrayListNode	tmpNode;
+		int				idx;
+
+		tmpNode = pList->pElement[position];
+		idx = pList->currentElementCount;		
+		while (idx > position)
+		{
+			pList->pElement[idx] = pList->pElement[idx - 1];
+			idx--;
+		}
+		pList->pElement[idx] = tmpNode;
+	}
+	pList->currentElementCount += 1;
+	return (pList->currentElementCount);
 }
 
 int removeALElement(ArrayList* pList, int position)
@@ -66,20 +112,33 @@ int removeALElement(ArrayList* pList, int position)
 		중간 것을 지우면 바로 뒤에것부터 하나씩 앞으로 당겨온다.
 		비어있는지 확인해야할 필요가 있는지?
 	*/
-	// pList->currentElementCount == 0	
-	// pList->pElement[position].data
-	// if currentElementCount-1 < position
-	// 
+	int idx;
 
-
+	idx = position;
+	if (getArrayListLength(pList) <= position)
+		return (FALSE);
+	// 길이 6 posi 3(4번째)
+	// 1 2 3 4 5 6
+	// 1 2 3 5 5 6
+	// 1 2 3 5 6
+	while (idx < getArrayListLength(pList))
+	{
+		pList->pElement[idx] = pList->pElement[idx + 1];
+		idx++;
+	}
+	pList->pElement[idx].data = NULL;
+	pList->currentElementCount -= 1;
+	return (getArrayListLength(pList));
 }
 
-ArrayListNode* getALElement(ArrayList* pList, int position)
+ArrayListNode	*getALElement(ArrayList* pList, int position)
 {
 	/*
 		특정  index값 반환
 		비어있으면? 그래도 반환
 	*/
+	if (position >= pList->currentElementCount || position >= pList->maxElementCount)
+		return ((ArrayListNode	*)FALSE);
 	return (&(pList->pElement[position]));
 }
 
@@ -99,43 +158,37 @@ void clearArrayList(ArrayList* pList)
 		clear는 arraylist의 모든 요소를 null로 처리
         [12,3,45,6]
         => [NULL, NULL, NULL, NULL]
-		delete는 모든 요소를 null로 하고서 free한다.
-		댕글링 포인터
 
+		currentElementCount는 어떻게 할 것인가?
+		값이 담긴 것은 아니니까 0으로 만든다.
 	*/
+	int	idx;
+
+	idx = 0;
+	while (idx < pList->currentElementCount)
+	{
+		pList->pElement[idx].data = NULL;
+		idx++;
+	}
+	pList->currentElementCount = 0;
 }
 
-void deleteArrayList(ArrayList* pList)
+void deleteArrayList(ArrayList *pList)
 {
-	
 	/*
 		원소전체를 초기화
 		free
 	*/
-	
-	while()
-	free(pList->pElement);
+	int	idx;
+
+	idx = 0;
+	while (idx < pList->currentElementCount)
+	{
+		free(&(pList->pElement[idx]));
+		idx++;	
+	}
 	free(pList);
 }
-
-
-int isArrayListFull(ArrayList* pList)
-{
-	/*
-		array list에 대한 pointer만 넘겨받는다.
-		즉 어디가 끝인지가 안나온다.
-		마지막인지 어떻게 알 것인가?
-		\n을 넣을 것인지
-		사이즈를 별도로 알 것인지
-		파라미터로 사이즈를 넘겨받지 않으니까
-		마지막 표시를 별도로 한다.
-	*/
-	// malloc 10 * (4)
-	// maxElementCount == currentElementCount
-	siZeof(pList.pElement);
-	
-}
-
 
 void displayArrayList(ArrayList* pList)
 {
@@ -143,40 +196,27 @@ void displayArrayList(ArrayList* pList)
 		첫 요소부터 끝 요소까지 display
 	*/
 	int	idx;
+	// int	min_len;
 
 	idx = 0;
+	// min_len = pList->currentElementCount;
+	// 만약 max가 cur보다 작은 경우? error? 여기서 고려할 부분이 아닌가? 
+	// if (pList->currentElementCount > pList->maxElementCount)
+	// 	min_len = pList->maxElementCount;
 	// 문제점 중간에만 비어있는 경우
 	// 초기화하는 부분이 없었다.
-	while (pList->pElement[idx].data)
+	// 하지만 그것은 arraylist라고 보지 않는다. 연속적어이여하니까.
+	// 즉, 다 연속적이라는 가정하게 진행한다.
+	while (idx < pList->currentElementCount)
 	{
 		printf("%d\n", pList->pElement[idx].data);
 		idx++;
 	}
-
 }
 
-
-int getArrayListLength(ArrayList* pList)
-{
-	/*
-		길이 확인
-		어떻게? siZeof 연산자 사용?
-		그러면 초기 할당된 크기가 나오게 되지 않는가?
-	*/
-
-}
-
-// resizing
-
-/*
-array list
-logic == physical order
-
-- array list create
-- element add
-- element eliminate
-- etc..
-- example
-
+/* 전체 고려사항
+	* add를 연속적으로 안하면?
+	* 연속적으로 하게 만들어야한다.
+	* 물리적, 논리적으로 연속이어야 arraylist이므로.
 */
 
