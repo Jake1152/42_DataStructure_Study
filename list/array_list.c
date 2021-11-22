@@ -11,12 +11,64 @@ int main()
 		arr_node = createALElement(argv[1], argv[2]);
 	*/
 	ArrayList		*first_AList;
+	ArrayListNode	element;
+	ArrayListNode	*ret_ArrayListNode;
+	int				position;
 
 	printf("start\n");
-	first_AList = createArrayList(42);
+	first_AList = createArrayList(20);
+	for (int i = 0; i < 10; i++)
+	{
+		position = i;
+		element.data = i + 1;
+		addALElement(first_AList, position,  element);
+	}		
 
-	printf("isArrayListFull %d\n", isArrayListFull(first_AList));
+	// printf("isArrayListFull %d\n", isArrayListFull(first_AList));
+	// printf("currentElementCount : %d\n", addALElement(first_AList, position,  element));
+	printf("displayArrayList(first_AList) \n");
+	displayArrayList(first_AList);
+
+	ret_ArrayListNode = getALElement(first_AList, 5);
+	printf("get element : %d\n", ret_ArrayListNode->data);
+
+	printf("after add element inside of arraylist \n");
+	element.data = 84;
+	addALElement(first_AList, 4,  element);	
+	displayArrayList(first_AList);
 	
+	printf("after add element at the end of arraylist \n");
+	element.data = 42;
+	addALElement(first_AList, 4,  element);
+	displayArrayList(first_AList);
+	
+	printf("after add element at the front of arraylist \n");
+	element.data = 21;
+	addALElement(first_AList, 0,  element);
+	displayArrayList(first_AList);
+	
+	printf("\n=========================\n\n");
+	printf("after remove element inside of arraylist \n");
+	removeALElement(first_AList, 4);
+	displayArrayList(first_AList);
+
+	printf("after remove element at the front of arraylist \n");
+	removeALElement(first_AList, 0);
+	displayArrayList(first_AList);
+	
+	printf("after remove element at the end of arraylist \n");
+	removeALElement(first_AList, 10);
+	displayArrayList(first_AList);
+
+	// printf("\n=========================\n\n");
+	// printf("after clear arraylist \n");
+	// clearArrayList(first_AList);
+	// displayArrayList(first_AList);
+
+	printf("\n=========================\n\n");
+	printf("after delete arraylist \n");
+	deleteArrayList(first_AList);
+	// displayArrayList(first_AList);
 
 	return (0);
 }
@@ -26,12 +78,18 @@ ArrayList	*createArrayList(int maxElementCount)
 	/*
 		element의 최대 개수를 넘겨받는다.
 	*/
-	ArrayList		*currentArrayList;	
+	ArrayList		*curArrayList;
+	ArrayListNode	*curArrayNode;
 
-	currentArrayList->maxElementCount = maxElementCount;
-	currentArrayList->currentElementCount = 0;
-	currentArrayList->pElement = (ArrayListNode	*)malloc(sizeof(ArrayListNode) * maxElementCount);
-	return (currentArrayList);
+	curArrayList = malloc(sizeof(ArrayList));
+	if (!(curArrayList) || maxElementCount < 0)
+		return (NULL);
+	curArrayList->maxElementCount = maxElementCount;
+	curArrayList->currentElementCount = 0;
+	curArrayNode = (ArrayListNode *)malloc(sizeof(ArrayListNode) * maxElementCount);
+
+	curArrayList->pElement = (ArrayList	*)malloc(sizeof(ArrayListNode) * maxElementCount);
+	return (curArrayList);
 }
 
 int getArrayListLength(ArrayList* pList)
@@ -67,7 +125,7 @@ int addALElement(ArrayList* pList, int position, ArrayListNode element)
 	if (position > pList->maxElementCount || position > getArrayListLength(pList))
 		return (FALSE);
 	// 딱 마지막 위치라면 바로 추가
-	else if (position + 1 == getArrayListLength(pList))
+	else if (position == getArrayListLength(pList))
 		pList->pElement[position] = element;
 	// sizeup realloc, e.g) position = 7, currentElementCount == 7
 	else if (isArrayListFull(pList) && \
@@ -84,23 +142,22 @@ int addALElement(ArrayList* pList, int position, ArrayListNode element)
 			idx++;
 		}
 		toBeArrayListNode->pElement[position] = element;
+		printf("pList in realloc process \n");
 		deleteArrayList(pList);
 		pList = toBeArrayListNode;
 	}
 	// max 이내이면서 중간에 끼는 경우
 	else // 기존 position 위치에 있는 것은 tmp에 담는다.
 	{
-		ArrayListNode	tmpNode;
 		int				idx;
 
-		tmpNode = pList->pElement[position];
 		idx = pList->currentElementCount;		
 		while (idx > position)
 		{
 			pList->pElement[idx] = pList->pElement[idx - 1];
 			idx--;
 		}
-		pList->pElement[idx] = tmpNode;
+		pList->pElement[idx] = element;
 	}
 	pList->currentElementCount += 1;
 	return (pList->currentElementCount);
@@ -179,14 +236,7 @@ void deleteArrayList(ArrayList *pList)
 		원소전체를 초기화
 		free
 	*/
-	int	idx;
-
-	idx = 0;
-	while (idx < pList->currentElementCount)
-	{
-		free(&(pList->pElement[idx]));
-		idx++;	
-	}
+	free(pList->pElement);
 	free(pList);
 }
 
@@ -209,9 +259,10 @@ void displayArrayList(ArrayList* pList)
 	// 즉, 다 연속적이라는 가정하게 진행한다.
 	while (idx < pList->currentElementCount)
 	{
-		printf("%d\n", pList->pElement[idx].data);
+		printf("%d ", pList->pElement[idx].data);
 		idx++;
 	}
+	printf("\n");
 }
 
 /* 전체 고려사항
