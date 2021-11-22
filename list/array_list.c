@@ -16,15 +16,15 @@ int main()
 	int				position;
 
 	printf("start\n");
-	first_AList = createArrayList(20);
+	first_AList = createArrayList(10);
+	printf("isArrayListFull %d\n", isArrayListFull(first_AList));
 	for (int i = 0; i < 10; i++)
 	{
 		position = i;
 		element.data = i + 1;
 		addALElement(first_AList, position,  element);
-	}		
+	}
 
-	// printf("isArrayListFull %d\n", isArrayListFull(first_AList));
 	// printf("currentElementCount : %d\n", addALElement(first_AList, position,  element));
 	printf("displayArrayList(first_AList) \n");
 	displayArrayList(first_AList);
@@ -39,13 +39,17 @@ int main()
 	
 	printf("after add element at the end of arraylist \n");
 	element.data = 42;
-	addALElement(first_AList, 4,  element);
+	addALElement(first_AList, 11,  element);
 	displayArrayList(first_AList);
-	
+
 	printf("after add element at the front of arraylist \n");
 	element.data = 21;
 	addALElement(first_AList, 0,  element);
 	displayArrayList(first_AList);
+	
+	/*
+
+	
 	
 	printf("\n=========================\n\n");
 	printf("after remove element inside of arraylist \n");
@@ -69,6 +73,8 @@ int main()
 	printf("after delete arraylist \n");
 	deleteArrayList(first_AList);
 	// displayArrayList(first_AList);
+	
+	*/
 
 	return (0);
 }
@@ -99,6 +105,8 @@ int getArrayListLength(ArrayList* pList)
 
 int isArrayListFull(ArrayList* pList)
 {
+	if(!(pList))
+		return (NULL);
 	if (pList->maxElementCount == pList->currentElementCount)
 		return (TRUE);
 	else
@@ -107,6 +115,8 @@ int isArrayListFull(ArrayList* pList)
 
 int addALElement(ArrayList* pList, int position, ArrayListNode element)
 {
+	if(!(pList))
+		return (NULL);
 	/*
 		- position이 currentElementCount보다 큰 경우 FALSE
 		- position이 maxElementCount보다 큰경우 realloc 필요
@@ -122,29 +132,52 @@ int addALElement(ArrayList* pList, int position, ArrayListNode element)
 		  position위치까지 반복
 	*/
 	// 최대 크기보다 2이상 크면 FALSE return
-	if (position > pList->maxElementCount || position > getArrayListLength(pList))
+	if (position >= pList->maxElementCount || position > getArrayListLength(pList))
 		return (FALSE);
 	// 딱 마지막 위치라면 바로 추가
 	else if (position == getArrayListLength(pList))
 		pList->pElement[position] = element;
 	// sizeup realloc, e.g) position = 7, currentElementCount == 7
-	else if (isArrayListFull(pList) && \
-			(position== getArrayListLength(pList)))
+	else if (isArrayListFull(pList))
 	{
 		ArrayList	*toBeArrayListNode;
 		int			idx;
 
-		toBeArrayListNode = createArrayList(pList->maxElementCount * 2);
+		printf("\n\ndoes size up works?\n\n");
+		toBeArrayListNode = createArrayList(pList->maxElementCount + 1);
 		idx = 0;
 		while (idx < position)
 		{
-			toBeArrayListNode->pElement[idx] = pList->pElement[idx];
+			addALElement(toBeArrayListNode, idx,  pList->pElement[idx]);
 			idx++;
 		}
-		toBeArrayListNode->pElement[position] = element;
-		printf("pList in realloc process \n");
+		printf("toBeArrayListNode in realloc process 0\n");
+		displayArrayList(toBeArrayListNode);
+		addALElement(toBeArrayListNode, idx,  element);
+		displayArrayList(toBeArrayListNode);
+		idx = pList->currentElementCount;
+
+		printf("\n\npost part\n\n");
+		while (idx > position + 1)
+		{
+			addALElement(toBeArrayListNode, idx,  pList->pElement[idx -1]);
+			idx--;
+		}
+		toBeArrayListNode->pElement[idx] = element;
+		
+		printf("toBeArrayListNode in realloc process 1\n");
+		displayArrayList(toBeArrayListNode);
+
+		printf("pList in realloc process 1\n");
+		displayArrayList(pList);
 		deleteArrayList(pList);
+
+		printf("pList in realloc process 2\n");
+		displayArrayList(toBeArrayListNode);
 		pList = toBeArrayListNode;
+
+		printf("pList in realloc process 3\n");
+		displayArrayList(pList);
 	}
 	// max 이내이면서 중간에 끼는 경우
 	else // 기존 position 위치에 있는 것은 tmp에 담는다.
@@ -172,6 +205,8 @@ int removeALElement(ArrayList* pList, int position)
 	int idx;
 
 	idx = position;
+	if(!(pList))
+		return (NULL);
 	if (getArrayListLength(pList) <= position)
 		return (FALSE);
 	// 길이 6 posi 3(4번째)
@@ -194,6 +229,8 @@ ArrayListNode	*getALElement(ArrayList* pList, int position)
 		특정  index값 반환
 		비어있으면? 그래도 반환
 	*/
+	if(!(pList))
+		return (NULL);
 	if (position >= pList->currentElementCount || position >= pList->maxElementCount)
 		return ((ArrayListNode	*)FALSE);
 	return (&(pList->pElement[position]));
@@ -222,6 +259,8 @@ void clearArrayList(ArrayList* pList)
 	int	idx;
 
 	idx = 0;
+	if(!(pList))
+		return ;
 	while (idx < pList->currentElementCount)
 	{
 		pList->pElement[idx].data = NULL;
@@ -236,6 +275,8 @@ void deleteArrayList(ArrayList *pList)
 		원소전체를 초기화
 		free
 	*/
+	if(!(pList))
+		return ;
 	free(pList->pElement);
 	free(pList);
 }
@@ -249,6 +290,8 @@ void displayArrayList(ArrayList* pList)
 	// int	min_len;
 
 	idx = 0;
+	if(!(pList))
+		return ;
 	// min_len = pList->currentElementCount;
 	// 만약 max가 cur보다 작은 경우? error? 여기서 고려할 부분이 아닌가? 
 	// if (pList->currentElementCount > pList->maxElementCount)
