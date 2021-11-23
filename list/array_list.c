@@ -49,8 +49,6 @@ int main()
 	
 	/*
 
-	
-	
 	printf("\n=========================\n\n");
 	printf("after remove element inside of arraylist \n");
 	removeALElement(first_AList, 4);
