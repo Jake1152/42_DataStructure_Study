@@ -28,7 +28,7 @@ ArrayList* createArrayList(int maxElementCount)
 	currentElementCount = 0;
 	currentArrayList->maxElementCount = maxElementCount;
 	currentArrayList->currentElementCount = currentElementCount;
-	currentArrayList->pElement = malloc(pElement *maxElementCount);
+	currentArrayList->pElement = (ArrayListNode *)malloc(sizeof(pElement) * maxElementCount);
 	return (currentArrayList);
 }
 
@@ -36,7 +36,7 @@ int addALElement(ArrayList* pList, int position, ArrayListNode element)
 {
 	int tmp;
 
-	tmp = pList->pElement[position].data
+	tmp = pList->pElement[position].data;
 	pList->pElement[position].data = element.data;
 	/*
 		새로 할당 사이즈 2~3배
@@ -101,8 +101,9 @@ void clearArrayList(ArrayList* pList)
         => [NULL, NULL, NULL, NULL]
 		delete는 모든 요소를 null로 하고서 free한다.
 		댕글링 포인터
-
 	*/
+	pList
+	pList->currentElementCount = 0;
 }
 
 void deleteArrayList(ArrayList* pList)
@@ -163,7 +164,7 @@ int getArrayListLength(ArrayList* pList)
 		어떻게? siZeof 연산자 사용?
 		그러면 초기 할당된 크기가 나오게 되지 않는가?
 	*/
-
+	return (pList->currentElementCount);
 }
 
 // resizing
