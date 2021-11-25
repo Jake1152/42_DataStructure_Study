@@ -14,16 +14,16 @@ typedef struct ArrayListType
 } ArrayList;
 
 ArrayList* createArrayList(int maxElementCount);
+int isArrayListFull(ArrayList* pList);
+int getArrayListLength(ArrayList* pList);
+int addALElement(ArrayList* pList, int position, ArrayListNode element);
 
+ArrayListNode* getALElement(ArrayList* pList, int position);
 void deleteArrayList(ArrayList* pList);
 void clearArrayList(ArrayList* pList);
-
-int isArrayListFull(ArrayList* pList);
-int addALElement(ArrayList* pList, int position, ArrayListNode element);
 int removeALElement(ArrayList* pList, int position);
-ArrayListNode* getALElement(ArrayList* pList, int position);
+
 void displayArrayList(ArrayList* pList);
-int getArrayListLength(ArrayList* pList);
 
 #endif
 

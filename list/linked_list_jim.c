@@ -1,8 +1,6 @@
 #include "linkedlist.h"
 #include <stdlib.h>
 
-static LinkedList	*reverseLinkedList(LinkedList* pList);
-
 int main()
 {
 
@@ -161,25 +159,6 @@ void deleteLinkedList(LinkedList* pList)
 	pList->currentElementCount = 0;
 }
 
-static LinkedList	*reverseLinkedList(LinkedList* pList)
-{
-	LinkedList	*reversedLinkedList;
-	ListNode	*curListNode;
-	ListNode	*prevListNode;
-
-	if (pList == NULL)
-		return (NULL);
-	reversedLinkedList = createLinkedList();
-	prevListNode = getLLElement(pList, 0);
-	curListNode = prevListNode->pLink;
-	// getLLElement(LinkedList* pList, int position)
-	while (curListNode)
-	{
-
-	}
-	return (reversedLinkedList);
-}
-
 /*
 
 메모리가 한정적일떄도 linked list
@@ -232,5 +211,9 @@ DS 배우는 이유
 	- 각 항을 linked list element로 둔다.
 	- coef, degree, link
 	- 
+
+
+
+
 
 */
