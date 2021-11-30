@@ -8,7 +8,6 @@ ArrayStack* createArrayStack(int maxElementCount)
 		element의 최대 개수를 넘겨받는다.
 	*/
 	ArrayStack*		curArrayStack;
-	// ArrayStackNode*	curArrayStackNode;
 
 	if (maxElementCount <= 0)
 		return (NULL);
@@ -27,11 +26,11 @@ ArrayStack* createArrayStack(int maxElementCount)
 int pushAS(ArrayStack* pStack, ArrayStackNode element)
 {
 	int top;
-	//size_t, ssize_t
+	//size_t
 	if (pStack == NULL)
-		return (NULL);
+		return (FALSE);
 	if (isArrayStackFull(pStack) == FALSE)
-		return (NULL);
+		return (FALSE);
 	top = pStack->currentElementCount;
 	pStack->pElement[top].data = element.data;	
 	pStack->currentElementCount += 1;
@@ -50,7 +49,7 @@ ArrayStackNode* peekAS(ArrayStack* pStack)
 		return (NULL);
 	top = pStack->currentElementCount - 1;
 	retArrayStackNode->data = pStack->pElement[top].data;
-	// pStack자체로 접근한다ㅣ.
+	// pStack자체로 접근한다.
 	return (retArrayStackNode);
 }
 
@@ -77,16 +76,14 @@ void deleteArrayStack(ArrayStack* pStack)
 {
 	if (pStack == NULL)
 		exit(EXIT_FAILURE);
+	free(pStack->pElement);
 	free(pStack);
-	// free(pStack);
-	// pStack 가리키던 메모리영역이 할당 해제된다.
-	// 그러므로 멤버변수 값들 초기화 시킬 필요는 없다 생각
 }
 
 int isArrayStackFull(ArrayStack* pStack)
 {
 	if (pStack == NULL)
-		return (NULL);
+		return (FALSE);
 	if (pStack->currentElementCount == pStack->maxElementCount)
 		return (TRUE);
 	return (FALSE);
@@ -95,7 +92,7 @@ int isArrayStackFull(ArrayStack* pStack)
 int isArrayStackEmpty(ArrayStack* pStack)
 {
 	if (pStack == NULL)
-		return (NULL);
+		return (FALSE);
 	if (pStack->currentElementCount == 0)
 		return (TRUE);
 	return (FALSE);

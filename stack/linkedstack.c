@@ -8,28 +8,20 @@ LinkedStack* createLinkedStack()
 		넘겨받는 아무 argument가 없다.
 	*/
 	LinkedStack*	newLinkedStack;
-	StackNode*		newStackNode;
 
 	newLinkedStack = (LinkedStack *)malloc(sizeof(newLinkedStack));
 	if (newLinkedStack == NULL)
-		return (NULL);
-	newStackNode = (StackNode *)malloc(sizeof(newStackNode));
-	if (newStackNode == NULL)
-		return (NULL);	
-	newStackNode->data = 0;
-	// char인 이유?	
-	newStackNode->pLink = NULL;
-	newLinkedStack->pTopElement = newStackNode;
+		return (FALSE);
+	newLinkedStack->pTopElement = NULL;
 	newLinkedStack->currentElementCount = 0;
-	// dummy node의 쓸모
-	// 
+
 	return (newLinkedStack);
 }
 
 int isLinkedStackFull(LinkedStack* pStack)
 {
 	if (pStack == NULL)
-		return (NULL);
+		return (FALSE);
 	// linked인데 full을 확인 하는 이유는 무엇인가?
 	return (FALSE);
 }
@@ -37,7 +29,7 @@ int isLinkedStackFull(LinkedStack* pStack)
 int isLinkedStackEmpty(LinkedStack* pStack)
 {
 	if (pStack == NULL)
-		return (NULL);
+		return (FALSE);
 	if (pStack->currentElementCount == 0)
 		return (TRUE);
 	return (FALSE);
