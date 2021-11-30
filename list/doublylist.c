@@ -29,6 +29,8 @@ static DoublyListNode	*createDoublyListNode(int data)
 	DoublyListNode *newDoublyListNode;
 
 	newDoublyListNode = malloc(sizeof(newDoublyListNode));
+	if (newDoublyListNode == NULL)
+		return (NULL);
 	newDoublyListNode->pRLink = NULL;
 	newDoublyListNode->pLLink = NULL;
 	newDoublyListNode->data = data;
@@ -43,11 +45,18 @@ DoublyList* createDoublyList()
 		rLink
 		data초기화는?x
 	*/
-	DoublyList*		newDoublyList;
+	DoublyList		*newDoublyList;
 	DoublyListNode	*newDoublyListNode;
 	// newDoublyListNode *가 안붙어도 되는가?
 
+	newDoublyList = malloc(sizeof(newDoublyList));
+	// newDoublyList = (DoublyList *)malloc(sizeof(newDoublyList));
+	if (newDoublyList == NULL)
+		return (NULL);
+	// newDoublyList = createDoublyListNode;
 	newDoublyListNode = malloc(sizeof(DoublyListNode));
+	if (newDoublyList == NULL)
+		return (NULL);
 	newDoublyListNode->pLLink = NULL;
 	newDoublyListNode->pRLink = NULL;
 	//  동적할당을 해주어야하는가?
@@ -60,9 +69,11 @@ DoublyList* createDoublyList()
 void displayDoublyList(DoublyList* pList)
 {
 	DoublyListNode	*curDoublyListNode;
+	// DoublyListNode	curDoublyListNode;
+	// curDoublyListNode.pLLink = &pLLink;
 
 	if (pList == NULL)
-		return ;
+		exit(EXIT_FAILURE);
 	curDoublyListNode = &(pList->headerNode);
 	while (curDoublyListNode)
 	{
@@ -76,7 +87,6 @@ int getDoublyListLength(DoublyList* pList)
 {
 	if (pList == NULL)
 		return (FALSE);
-
 	return (pList->currentElementCount);
 }
 
@@ -108,7 +118,7 @@ DoublyListNode* getDLElement(DoublyList* pList, int position)
 	printf("pList->currentElementCount %d\n", pList->currentElementCount);
 	// headerNode의 주소값을 가지고 있게해도 되는가?
 	curDoublyListNode = &(pList->headerNode);
-	// 왼쪽에서 오른쪽으로 순회 
+	// 왼쪽에서 오른쪽으로 순회  start to mid
 	if (position < (pList->currentElementCount-1)/2)
 	{
 		while (position > 0)
@@ -118,6 +128,7 @@ DoublyListNode* getDLElement(DoublyList* pList, int position)
 		}
 	}
 	// 오른쪽에서 왼쪽으로 순회
+	// end -> mid
 	else
 	{
 		while (pList->currentElementCount - position > 0)
@@ -141,9 +152,8 @@ int addDLElement(DoublyList* pList, int position, DoublyListNode element)
 	DoublyListNode	*prevDoublyListNode;
 	DoublyListNode	*newDoublyListNode;
 
-	newDoublyListNode = createDoublyListNode(element.data);
 	if (pList == NULL)
-		return (NULL);
+		return (FALSE);
 	if (position < 0 || position > pList->currentElementCount)
 		return (NULL);
 	// getElement사용
@@ -178,7 +188,6 @@ int addDLElement(DoublyList* pList, int position, DoublyListNode element)
 	return (pList->currentElementCount);
 }
 
-
 int removeDLElement(DoublyList* pList, int position)
 {
 	DoublyListNode	*prevDoublyListNode;
@@ -186,9 +195,16 @@ int removeDLElement(DoublyList* pList, int position)
 	DoublyListNode	*nextDoublyListNode;
 
 	if (pList == NULL)
-		return (NULL);
+		return (FALSE);
 	if (pList->currentElementCount >= position)
-		return (NULL);
+		return (FALSE);
+	// position == 0;
+	// headerNode가 가리키는 것을 바꾸어주어야한다.
+	/*
+
+	*/
+	if (position == 0)
+		curDoublyListNode->pRLink;
 	curDoublyListNode = getDLElement(pList, position);
 	prevDoublyListNode = curDoublyListNode->pLLink;
 	nextDoublyListNode = curDoublyListNode->pRLink;
@@ -209,16 +225,17 @@ void deleteDoublyList(DoublyList* pList)
 		- 마지막으로 pList free
 	*/
 	if (pList == NULL)
-		return (NULL);
-	while (pList->currentElementCount != 0)
-		removeDLElement(pList, 0);
-	printf("pList->currentElementCount : %d\n", pList->currentElementCount);
+		exit(EXIT_FAILURE);
+	clearDoublyList(pList);	
 	free(pList);
 }
 
 void clearDoublyList(DoublyList* pList)
 {
-	deleteDoublyList(pList);
+	if (pList == NULL)
+		return (NULL);
+	while (pList->currentElementCount != 0)
+		removeDLElement(pList, 0);
 }
 
 static DoublyList		*reverseLinkedList(DoublyList* pList)
@@ -243,5 +260,8 @@ static DoublyList		*reverseLinkedList(DoublyList* pList)
 	{
 		curDoublyListNode->pLLink;
 	}
-	return ();
+	/*
+		python sorted느낌으로 할려면? 추가작업 필요
+	*/
+	return (reversedDoublyList);
 }
