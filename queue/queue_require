@@ -1,0 +1,31 @@
+- 미로 
+- 큐 
+1. 선착순
+
+
+- FIFO
+- Front
+- Rear
+- ENqueu, En-Queue
+- Deque, De-Queue
+- 
+
+
+- ArrayQueue structure
+
+front, rear위치를 잡아야
+front가 계속 빌 수 있다.
+
+maxElementCount == currentElementCount
+하지만 앞에가 텅텅 빌 수가 있다.
+그런데 마치 풀이 찬것처럼 될 수 있다.
+
+read == pQueue->maxElementCount
+
+linear queue
+-> circular queue로 만든다. 
+
+-> recursive
+-> loop
+
+
