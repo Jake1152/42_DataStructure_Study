@@ -41,8 +41,8 @@ BinTree* makeBinTree(BinTreeNode rootNode)
 	newBinTree = (BinTree*)malloc(sizeof(BinTreeNode));
 	if (newBinTree == NULL)
 		return (NULL);
-	// printf("rootNode address : %p\n", &rootNode);
-	// printf("newBinTree->pRootNode address in makeBinTree: %p\n", &rootNode);
+	printf("rootNode address : %p\n", &rootNode);
+	printf("newBinTree->pRootNode address in makeBinTree: %p\n", &rootNode);
 	rootNode.visited = 0;
 	newBinTree->pRootNode = &rootNode;	
 	// printf("newBinTree->pRootNode address after allocation in makeBinTree: %p\n", &rootNode);
