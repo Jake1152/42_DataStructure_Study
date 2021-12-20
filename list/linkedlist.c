@@ -1,13 +1,25 @@
 #include "linkedlist.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 static LinkedList	*reverseLinkedList(LinkedList* pList);
 
-int main()
-{
+// int main()
+// {
+// 	LinkedList*	mainLinkedList;
+// 	ListNode 	element;
 
-	return (0);
-}
+	// mainLinkedList = createLinkedList();
+	// for (int i = 0; i < 10; i++)
+	// {
+	// 	element.data = i;
+	// 	printf("addLLElement(mainLinkedList, i, element) : %d\n", addLLElement(mainLinkedList, i, element));
+	// }
+	// printf("currentElementCount : %d\n", mainLinkedList->currentElementCount);
+	// displayLinkedList(mainLinkedList);
+	
+// 	return (0);
+// }
 
 LinkedList	*createLinkedList()
 {
@@ -15,18 +27,11 @@ LinkedList	*createLinkedList()
 		넘겨받는 아무 argument가 없다.
 	*/
 	LinkedList*	curLinkedList;
-	ListNode*	curListNode;
 
 	curLinkedList = (LinkedList*)malloc(sizeof(LinkedList));
 	if (curLinkedList == NULL)
 		return (NULL);
-	// curListNode를 꼭 초기화 해주어야하는가?
-	curListNode->data = 0;
-	curListNode->pLink = NULL;
-	curLinkedList->headerNode = *curListNode;
-	//curLinkedList->headerNode->pLink = NULL;
 	curLinkedList->currentElementCount = 0;
-
 	return (curLinkedList);
 }
 
@@ -36,9 +41,9 @@ int getLinkedListLength(LinkedList* pList)
 	ListNode	*curLinkedNode;
 
 	if (pList == NULL)
-		return (NULL);
+		return (FALSE);
 	l_size = 0;
-	curLinkedNode = pList->headerNode.pLink;
+	curLinkedNode = pList->headerNode->pLink;
 	// ListNode headerNode.;
 	// struct ListNodeType* pLink;
 	while (curLinkedNode)
@@ -56,10 +61,10 @@ ListNode*	getLLElement(LinkedList* pList, int position)
 
 	if (pList == NULL)
 		return (NULL);
-	if (position >= pList->currentElementCount)
+	if (position > pList->currentElementCount)
 		return (NULL);
 	idx = 0;
-	curListNode = pList->headerNode.pLink;
+	curListNode = pList->headerNode;
 	// 왜 headerNode.pLink 인가 "->pLink"가 아니라?
 	while(idx < position)
 	{
@@ -74,10 +79,15 @@ int	addLLElement(LinkedList* pList, int position, ListNode element)
 	ListNode*	newListNode;
 	ListNode*	prevListNode;
 
-	if (!(pList))
+	printf("in addLLElement\n");
+	if (pList == NULL)
 		return (FALSE);
-	if (position >= pList->currentElementCount)
+	if (position > pList->currentElementCount)
+	{
+		printf("position : %d\n", position);
+		printf("pList->currentElementCount : %d\n", pList->currentElementCount);
 		return (FALSE);
+	}	
 	newListNode = (ListNode*)malloc(sizeof(ListNode));
 	// pList도 각 요소들 다 
 	if (newListNode == NULL)
@@ -86,14 +96,20 @@ int	addLLElement(LinkedList* pList, int position, ListNode element)
 	if (position == 0)
 	{
 		newListNode->pLink = NULL;
-		pList->headerNode = *newListNode;
+		pList->headerNode = newListNode;
+		// printf("test in addElement\n");
+		// printf("pList->headerNode->data : %d\n", pList->headerNode->data);
 	}
 	else
+	{
+		// printf("test in addElement second \n");
+		// printf("position : %d\n", position);
 		prevListNode = getLLElement(pList, position - 1);
 		newListNode->pLink = prevListNode->pLink;
 		prevListNode->pLink = newListNode;
+	}
 	pList->currentElementCount++;
-	return (TRUE);
+	return (pList->currentElementCount);
 }
 
 int removeLLElement(LinkedList* pList, int position)
@@ -204,6 +220,24 @@ static LinkedList	*reverseLinkedList(LinkedList* pList)
 	}
 	return (reversedLinkedList);
 }
+
+void	displayLinkedList(LinkedList* pList)
+{
+	ListNode*	curListNode;
+
+	// pList->headerNode == NULL 왜 error인가?
+	if (pList == NULL)
+		exit(EXIT_FAILURE);	
+	curListNode = pList->headerNode;
+	printf("display linked list : \n");
+	while (curListNode->pLink)
+	{
+		printf("%d -> ", curListNode->data);
+		curListNode = curListNode->pLink;
+	}
+	printf("%d\n", curListNode->data);
+}
+
 
 /*
 

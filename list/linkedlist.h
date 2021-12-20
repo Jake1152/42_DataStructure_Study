@@ -10,22 +10,23 @@ typedef struct ListNodeType
 // **
 typedef struct LinkedListType
 {
-	int currentElementCount;	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿? ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
-	ListNode headerNode;		// ï¿½ï¿½ï¿? ï¿½ï¿½ï¿?(Header Node)
+	int currentElementCount;	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½? ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	ListNode* headerNode;		// ï¿½ï¿½ï¿½? ï¿½ï¿½ï¿½?(Header Node)
 } LinkedList;
-// (&headerNode)
-typedef struct PolynomialListType
-{
-	int currentElementCount;	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿? ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
-	PolyListNode headerNode;	// ï¿½ï¿½ï¿? ï¿½ï¿½ï¿?(Header Node)
-} PolyLinkedList;
 
-typedef struct PolynomialListNodeType
-{
-	int	coef;
-	int	degree;
-	struct PolynomialListNodeType*	pLink;
-} PolyListNode;
+// (&headerNode)
+// typedef struct PolynomialListType
+// {
+// 	int currentElementCount;	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½? ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+// 	PolyListNode headerNode;	// ï¿½ï¿½ï¿½? ï¿½ï¿½ï¿½?(Header Node)
+// } PolyLinkedList;
+
+// typedef struct PolynomialListNodeType
+// {
+// 	int	coef;
+// 	int	degree;
+// 	struct PolynomialListNodeType*	pLink;
+// } PolyListNode;
 
 LinkedList* createLinkedList();
 int addLLElement(LinkedList* pList, int position, ListNode element);
@@ -35,14 +36,15 @@ ListNode* getLLElement(LinkedList* pList, int position);
 void clearLinkedList(LinkedList* pList);
 int getLinkedListLength(LinkedList* pList);
 void deleteLinkedList(LinkedList* pList);
+void displayLinkedList(LinkedList* pList);
 
-/* add polynomial */
+/* add polynomial
 PolyLinkedList*	createPolyLinkedList();
 
 int	addPolyLLElement(PolyLinkedList* pList, int position, PolyListNode element);
 PolyLinkedList*	sumPolyLinkedList(PolyLinkedList* pAList, PolyLinkedList* pBList);
 int getPolyLinkedListLength(PolyLinkedList* pList);
-void 
+ */
 
 /*
 - getPloyLLElement(PolyLinkedList* pList, int position);

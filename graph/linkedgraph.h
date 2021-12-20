@@ -1,8 +1,9 @@
-#ifndef _GRAPH_ADJLIST_
-#define _GRAPH_ADJLIST_
 #include "../list/linkedList.h"
 
-typedef struct LinkedGraphType
+#ifndef _GRAPH_ADJLIST_
+#define _GRAPH_ADJLIST_
+
+typedef struct LinkedGraphType 
 {
 	int maxVertexCount;		// 최대 노드 개수
 	int currentVertexCount;	// 현재 사용되는 노드의 개수
@@ -39,7 +40,7 @@ int removeVertexLG(LinkedGraph* pGraph, int vertexID);
 // 간선 제거
 int removeEdgeLG(LinkedGraph* pGraph, int fromVertexID, int toVertexID);
 void deleteGraphNode(LinkedList* pList, int delVertexID);
-int findGraphNodePosition(LinkedList* pList, int vertexID);
+int findGraphNodePosition(LinkedGraph* pGraph, int vertexID);
 
 // 간선 개수 반환
 int getEdgeCountLG(LinkedGraph* pGraph);
@@ -59,9 +60,6 @@ void displayLinkedGraph(LinkedGraph* pGraph);
 
 #ifndef _COMMON_GRAPH_DEF_
 #define _COMMON_GRAPH_DEF_
-
-#define TRUE				1
-#define FALSE				0
 
 #define USED				1
 #define NOT_USED			-1
