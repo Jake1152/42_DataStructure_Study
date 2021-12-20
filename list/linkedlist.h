@@ -7,18 +7,17 @@ typedef struct ListNodeType
 	struct ListNodeType* pLink;
 } ListNode;
 
-
 // **
 typedef struct LinkedListType
 {
-	int currentElementCount;	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
-	ListNode headerNode;		// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½(Header Node)
+	int currentElementCount;	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿? ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	ListNode headerNode;		// ï¿½ï¿½ï¿? ï¿½ï¿½ï¿?(Header Node)
 } LinkedList;
 // (&headerNode)
 typedef struct PolynomialListType
 {
-	int currentElementCount;	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
-	PolyListNode headerNode;	// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½(Header Node)
+	int currentElementCount;	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿? ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	PolyListNode headerNode;	// ï¿½ï¿½ï¿? ï¿½ï¿½ï¿?(Header Node)
 } PolyLinkedList;
 
 typedef struct PolynomialListNodeType

@@ -11,6 +11,15 @@
 
 int main(void)
 {
+	LinkedGraph*	mainLinkedGraph;
+	int				maxVertexCount;
+	int				graphType;
+
+	maxVertexCount = 7;
+	graphType = GRAPH_UNDIRECTED;
+	mainLinkedGraph = createLinkedGraph(maxVertexCount, graphType);
+	// mainLinkedGraph
+
 	printf("\n");
 	return (0);
 }
@@ -23,24 +32,30 @@ LinkedGraph* createLinkedGraph(int maxVertexCount, int graphType)
 	LinkedList*		newLinkedList;
 	int*			newVertex;
 
+	if (maxVertexCount <= 0 || graphType < GRAPH_UNDIRECTED \
+		|| graphType > GRAPH_DIRECTED)
+		return (NULL);
 	newLinkedGraph = (LinkedGraph*)malloc(sizeof(LinkedGraph));
 	if (newLinkedGraph == NULL)
 		return (NULL);
-	newLinkedGraph->maxVertexCount = maxVertexCount;
-	newLinkedGraph->currentVertexCount = 0;
-	newLinkedGraph->currentEdgeCount = 0;
-	newLinkedGraph->graphType = graphType;
 	// vertex갯수만큼 linkedlist 1차원 배열의 사이즈 정해서 동적할당
 	// vertex에다가 연결될 node를 표현하므로 맨처음 create에서 처리
-	newLinkedListPtr = (LinkedList**)malloc(sizeof(LinkedList*) * maxVertexCount);
-	// maxVertexCount 개수만큼 newLinkedList 
+	/* e.g)
+	 ㅁ -> ㅁㅁㅁ
+	 ㅁ -> ㅁㅁㅁㅁㅁ
+	 ㅁ -> ㅁㅁㅁㅁㅁㅁㅁㅁ
+	 ㅁ -> ㅁ
+	 ㅁ -> NULL	
+	*/
+	// maxVertexCount 개수만큼 newLinkedList 만들어준다.
+	newLinkedListPtr = (LinkedList**)malloc(sizeof(LinkedList*) * maxVertexCount);	
 	if (newLinkedListPtr == NULL)
 	{
 		free(newLinkedGraph);
 		return (NULL);
 	}
 	// maxVertexCount 갯수만큼 ppAdjEdge에 추가될 LinkedList* 할당
-	for (int i = 0; i < maxVertexCount; i++)
+	for (int i = 0; i < maxVertexCount; i++) 
 	{
 		newLinkedList = (LinkedList*)malloc(sizeof(LinkedList));
 		if (newLinkedList == NULL)
@@ -56,6 +71,11 @@ LinkedGraph* createLinkedGraph(int maxVertexCount, int graphType)
 	newLinkedGraph->ppAdjEdge = newLinkedListPtr;
 	// Vertex 추가 1차원 array list
 	newVertex = (int*)malloc(sizeof(int) * maxVertexCount);
+	/*
+	- 실패하는 경우 이전에 할당한 1차원 linked list free
+	- 2차원linked list pointer free
+	- graph또한 free
+	*/
 	if (newVertex == NULL)
 	{
 		for (int i = 0; i < maxVertexCount; i++)
@@ -65,13 +85,17 @@ LinkedGraph* createLinkedGraph(int maxVertexCount, int graphType)
 		return (NULL);
 	}	
 	newLinkedGraph->pVertex = newVertex;
+	newLinkedGraph->maxVertexCount = maxVertexCount;
+	newLinkedGraph->currentVertexCount = 0;
+	newLinkedGraph->currentEdgeCount = 0;
+	newLinkedGraph->graphType = graphType;
 	return (newLinkedGraph);
 }
 
 // 공백 그래프 여부 판단
 int isEmptyLG(LinkedGraph* pGraph)
 {
-	if (pGraph == NULL)
+	if (pGraph == NULL || pGraph->currentVertexCount)
 		return (FALSE);
 	if (pGraph->currentVertexCount == 0)
 		return (TRUE);
@@ -99,12 +123,6 @@ int addVertexLG(LinkedGraph* pGraph, int vertexID)
 // 간선 추가
 int addEdgeLG(LinkedGraph* pGraph, int fromVertexID, int toVertexID)
 {
-	LinkedList*	newLinkedList;
-	ListNode*	curListNode;
-
-	if (pGraph == NULL || checkVertexValid(pGraph, fromVertexID) == FALSE || \
-		checkVertexValid(pGraph, toVertexID) == FALSE)
-		return (FALSE);
 	/*
 		linked list를 이용하는 방법
 		from에서 to에 추가
@@ -121,42 +139,61 @@ int addEdgeLG(LinkedGraph* pGraph, int fromVertexID, int toVertexID)
 		ㅁ -> ㅁㅁㅁㅁㅁ
 		ㅁ -> ㅁㅁ
 	*/
+	ListNode 	ListNodeElement;
+	int			fromVertexID_idx;
+	int			toVertexID_idx;
+	int			addElement_status;
+
+	if (pGraph == NULL || checkVertexValid(pGraph, fromVertexID) == FALSE || \
+		checkVertexValid(pGraph, toVertexID) == FALSE)
+		return (FALSE);
+	// 무방향 그래프일때, 양방향 연결
 	if (pGraph->graphType == GRAPH_UNDIRECTED)
 	{
-		ListNode*	newLinkedNode;
 		// idx는 해당 노드 fromVertexID, toVertexID
-		// node malloc 하여 값을 추가한 뒤 
-		newLinkedNode = malloc(sizeof(ListNode));
-		if (newLinkedNode == NULL)
-			return (NULL);
-		newLinkedNode->data = toVertexID;
-		pGraph->ppAdjEdge[fromVertexID_idx] = newLinkedNode
-
-		newLinkedNode = malloc(sizeof(ListNode));
-		if (newLinkedNode == NULL)
-			return (NULL);
-		// from, to 를 나눠야한다. malloc 실패를 처리한다면.
-		// 그리고 다른 부분에 대해서도 free 필요. 별도 함수 필요.
-		newLinkedNode->data = toVertexID;
-		pGraph->ppAdjEdge[toVertexID_idx] = newLinkedNode
+		// fromVertexID_idx 찾기 및 fromVertexID -> toVertexID 연결
+		if (chainingEdge(pGraph, fromVertexID, toVertexID) == FALSE)
+			return (FALSE);
+		// toVertexID 찾기 및 toVertexID -> fromVertexID 연결
+		if (chainingEdge(pGraph, toVertexID, fromVertexID) == FALSE)
+			return (FALSE);
 	}
+	//	방향그래프일떄, 단방향으로만 연결
 	else if (pGraph->graphType == GRAPH_DIRECTED)
-
-	else
-		printf("undefined Graph Type.\n");
-	
-	curListNode = pGraph->ppAdjEdge->headerNode;
-	// curListNode에 없는경우 처리는 어떻게할 것인가?
-	// 별도 함수로 뺴는게 나을 것으로 생각
-	while (curListNode)
 	{
-		if (curListNode->data == fromVertexID)
-			break ;
-		curListNode = curListNode->pLink;
+		if (chainingEdge(pGraph, fromVertexID, toVertexID) == FALSE)
+			return (FALSE);
 	}
-	pGraph->ppAdjEdge = ;
-	pGraph->currentEdgeCount++;
+	else
+	{
+		printf("undefined Graph Type.\n");
+		return (FALSE);
+	}
 	return (pGraph->currentEdgeCount);
+}
+
+int	chainingEdge(LinkedGraph* pGraph, int fromVertexID, int toVertexID)
+{
+	int			fromVertexID_idx;
+	int			addElement_status;
+	ListNode	ListNodeElement;
+
+	for (int i = 0; i<pGraph->currentVertexCount; i++)
+	{
+		if (pGraph->ppAdjEdge[i]->header.data == fromVertexID)
+		{
+			fromVertexID_idx = i;
+			break ;
+		}
+	}
+	ListNodeElement.data = toVertexID;
+	// ㅁ -> ㅁㅁㅁㅁ 연결리스트 구현된 함수를 이용히여 새로운 엣지를 맨 뒤에 연결되도록 한다
+	// 파라미터 pList, position, element 순서
+	addElement_status = addLLElement(pGraph->ppAdjEdge[fromVertexID_idx], \
+					pGraph->ppAdjEdge[fromVertexID_idx]->currentElementCount, \
+					ListNodeElement);
+	pGraph->currentEdgeCount++;
+	return (addElement_status);
 }
 
 int addEdgewithWeightLG(LinkedGraph* pGraph, int fromVertexID, int toVertexID, int weight)
@@ -240,7 +277,28 @@ int findGraphNodePosition(LinkedList* pList, int vertexID)
 {
 	/*
 		int *pVertex;			// index 받는 용도
+		LinkedList** ppAdjEdge;	// 
+		// 1차원에 대해서 index받는 용도
+
+		LinkedList** ppAdjEdge;에서 어떻게 넘겨받을 것인가?
+		* ppAdjEdge 이렇게하면   1. 케이스이다.
+		원하는 것은 세로 줄 즉, 노드들의 header를 가리킬 그곳이다.
+		밖에서 findGraphNodePosition(pGraph->ppAdjEdge) 이렇게 넘길 수있는가?
+		하지만 pGraph->ppAdjEdge 이중포인터라서 안맞을거 같다.
+		그렇다고 하지만 pGraph->ppAdjEdge 싱글 포인터로 넘기는건 모르곘다.
+		1, ㅁ -> ㅁㅁㅁㅁ
+		ㅁ
+		ㅁ
+		ㅁ
 	*/
+	LinkedList* pCurList;
+
+	pCurList = pList;
+	if (pList == NULL)
+		return (FALSE);
+	// pGraph->ppAdjEdge[pGraph->currentVertexCount]->headerNode.data = vertexID;
+	if (pList->headerNode.data == vertexID)
+	
 }
 
 // 그래프 정보 출력
@@ -250,7 +308,20 @@ void displayLinkedGraph(LinkedGraph* pGraph)
 		노드별로 연결된 것들 출력
 		하지만 방향성 여부에 따라 다르게 출력
 		어떤 순서로 연결되어있는지?
+		방향성 상관없이 출력.
 	*/
+	LinkedList*	curLinkedList;
+	if (pGraph == NULL || pGraph->maxVertexCount <= 0 || \
+		pGraph->currentVertexCount <= 0 || \
+		pGraph->currentEdgeCount <= 0)
+	{
+		printf("displayLinkedGraph do not display, cause there are nothing.\n");
+		exit(EXIT_FAILURE);
+	}
+	curLinkedList = pGraph->ppAdjEdge;
+	while (curLinkedList->)
+
+		
 }
 
 // 간선 개수 반환

@@ -27,7 +27,9 @@ int addVertexLG(LinkedGraph* pGraph, int vertexID);
 // 간선 추가
 int addEdgeLG(LinkedGraph* pGraph, int fromVertexID, int toVertexID);
 int addEdgewithWeightLG(LinkedGraph* pGraph, int fromVertexID, int toVertexID, int weight);
-ListNode*	getVertex
+int	chainingEdge(LinkedGraph* pGraph, int fromVertexID, int toVertexID);
+// int	
+// ListNode*	getVertex();
 // 노드의 유효성 점검.
 int checkVertexValid(LinkedGraph* pGraph, int vertexID);
 

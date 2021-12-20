@@ -14,10 +14,10 @@ LinkedList	*createLinkedList()
 	/*
 		넘겨받는 아무 argument가 없다.
 	*/
-	LinkedList		*curLinkedList;
-	ListNode		*curListNode;
+	LinkedList*	curLinkedList;
+	ListNode*	curListNode;
 
-	curLinkedList = malloc(sizeof(LinkedList));
+	curLinkedList = (LinkedList*)malloc(sizeof(LinkedList));
 	if (curLinkedList == NULL)
 		return (NULL);
 	// curListNode를 꼭 초기화 해주어야하는가?
@@ -71,23 +71,28 @@ ListNode*	getLLElement(LinkedList* pList, int position)
 
 int	addLLElement(LinkedList* pList, int position, ListNode element)
 {
-	ListNode	*newListNode;
-	ListNode	*prevListNode;
+	ListNode*	newListNode;
+	ListNode*	prevListNode;
 
 	if (!(pList))
 		return (FALSE);
 	if (position >= pList->currentElementCount)
 		return (FALSE);
+	newListNode = (ListNode*)malloc(sizeof(ListNode));
+	// pList도 각 요소들 다 
+	if (newListNode == NULL)
+		return (FALSE);
+	newListNode->data = element.data;
 	if (position == 0)
 	{
-		pList->headerNode = element;
-		pList->headerNode.pLink = NULL;
+		newListNode->pLink = NULL;
+		pList->headerNode = *newListNode;
 	}
 	else
 		prevListNode = getLLElement(pList, position - 1);
-		element.pLink = prevListNode->pLink;
-		prevListNode->pLink = &element;
-	pList->currentElementCount += 1;
+		newListNode->pLink = prevListNode->pLink;
+		prevListNode->pLink = newListNode;
+	pList->currentElementCount++;
 	return (TRUE);
 }
 
@@ -117,7 +122,7 @@ int removeLLElement(LinkedList* pList, int position)
 		prevListNode->pLink = prevListNode->pLink->pLink;
 		free(prevListNode->pLink);
 	}
-	pList->currentElementCount -= 1;
+	pList->currentElementCount--;
 	return (TRUE);
 }
 
@@ -129,6 +134,7 @@ void clearLinkedList(LinkedList* pList)
 		
 	*/
 	ListNode	*curListNode;
+	ListNode	*delListNode;
 
 	if (pList == NULL)
 		exit(EXIT_FAILURE);
@@ -137,8 +143,10 @@ void clearLinkedList(LinkedList* pList)
 	curListNode = getLLElement(pList, 0);
 	while (curListNode)
 	{
-		curListNode->data = NULL;
-		curListNode = curListNode->pLink;		
+		delListNode = curListNode;
+		curListNode = curListNode->pLink;
+		free(delListNode);
+		delListNode = NULL;
 	}
 }
 
@@ -168,6 +176,8 @@ void deleteLinkedList(LinkedList* pList)
 		free(deletedListNode);
 	}
 	pList->currentElementCount = 0;
+	free(pList);
+	pList = NULL;
 }
 
 static LinkedList	*reverseLinkedList(LinkedList* pList)
