@@ -27,7 +27,8 @@ void deleteArrayGraph(ArrayGraph* pGraph)
 // 공백 그래프 여부 판단
 int isEmptyAG(ArrayGraph* pGraph)
 {
-	
+	if (pGraph == NULL)
+		return (FALSE);
 }
 
 // 노드 추가

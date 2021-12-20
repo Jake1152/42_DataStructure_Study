@@ -1,5 +1,6 @@
 #ifndef _GRAPH_ADJLIST_
 #define _GRAPH_ADJLIST_
+#include "../list/linkedList.h"
 
 typedef struct LinkedGraphType
 {
@@ -26,7 +27,7 @@ int addVertexLG(LinkedGraph* pGraph, int vertexID);
 // 간선 추가
 int addEdgeLG(LinkedGraph* pGraph, int fromVertexID, int toVertexID);
 int addEdgewithWeightLG(LinkedGraph* pGraph, int fromVertexID, int toVertexID, int weight);
-
+ListNode*	getVertex
 // 노드의 유효성 점검.
 int checkVertexValid(LinkedGraph* pGraph, int vertexID);
 
@@ -61,7 +62,7 @@ void displayLinkedGraph(LinkedGraph* pGraph);
 #define FALSE				0
 
 #define USED				1
-#define NOT_USED			0
+#define NOT_USED			-1
 
 #define SUCCESS				1
 #define FAIL				0
