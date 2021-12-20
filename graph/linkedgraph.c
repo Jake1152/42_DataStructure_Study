@@ -20,6 +20,7 @@ LinkedGraph* createLinkedGraph(int maxVertexCount, int graphType)
 {
 	LinkedGraph*	newLinkedGraph;
 	LinkedList**	newLinkedListPtr;
+	LinkedList*		newLinkedList;
 	int*			newVertex;
 
 	newLinkedGraph = (LinkedGraph*)malloc(sizeof(LinkedGraph));
@@ -32,25 +33,37 @@ LinkedGraph* createLinkedGraph(int maxVertexCount, int graphType)
 	// vertex갯수만큼 linkedlist 1차원 배열의 사이즈 정해서 동적할당
 	// vertex에다가 연결될 node를 표현하므로 맨처음 create에서 처리
 	newLinkedListPtr = (LinkedList**)malloc(sizeof(LinkedList*) * maxVertexCount);
-	/*
-		ㅁ 
-		ㅁ
-		ㅁ
-	*/
 	// maxVertexCount 개수만큼 newLinkedList 
 	if (newLinkedListPtr == NULL)
 	{
 		free(newLinkedGraph);
 		return (NULL);
 	}
+	// maxVertexCount 갯수만큼 ppAdjEdge에 추가될 LinkedList* 할당
+	for (int i = 0; i < maxVertexCount; i++)
+	{
+		newLinkedList = (LinkedList*)malloc(sizeof(LinkedList));
+		if (newLinkedList == NULL)
+		{
+			free(newLinkedGraph);
+			free(newLinkedListPtr);
+			for (int j = 0; j < i; j++)
+				free(newLinkedListPtr[j]);
+			return (NULL);
+		}
+		newLinkedListPtr[i] = newLinkedList;
+	}
 	newLinkedGraph->ppAdjEdge = newLinkedListPtr;
+	// Vertex 추가 1차원 array list
 	newVertex = (int*)malloc(sizeof(int) * maxVertexCount);
 	if (newVertex == NULL)
 	{
+		for (int i = 0; i < maxVertexCount; i++)
+			free(newLinkedGraph->ppAdjEdge[i]);
+		free(newLinkedGraph->ppAdjEdge);
 		free(newLinkedGraph);
-		free(newLinkedListPtr);
 		return (NULL);
-	}
+	}	
 	newLinkedGraph->pVertex = newVertex;
 	return (newLinkedGraph);
 }
@@ -73,27 +86,11 @@ int addVertexLG(LinkedGraph* pGraph, int vertexID)
 
 	if (pGraph == NULL)
 		return (FALSE);
-	// maxVertexCount이상인 경우, reallocation maxVertexCount 2배로 증가시키기
+	// maxVertexCount 이상이면 False
 	if (pGraph->maxVertexCount <= pGraph->currentVertexCount)
-	{
 		return (FALSE);
-		/*
-		newVertex = (int*)malloc(sizeof(int) * pGraph->maxVertexCount * 2);
-		if (newVertex == NULL)
-			return (NULL);
-		idx = 0;
-		while (pGraph->currentVertexCount)
-		{
-			newVertex[idx] = pGraph->pVertex[idx];
-			idx++;
-		}
-		free(pGraph->pVertex);
-		pGraph->pVertex = newVertex;
-		pGraph->maxVertexCount = pGraph->maxVertexCount * 2;
-		*/
-	}
 	pGraph->pVertex[pGraph->currentVertexCount] = vertexID;
-	// vertexID find in ppAdjEdge
+	// 새로 들어온 vertexID를 currentVertexCount index에 넣어서 vertexID는 headerNode data에 추가한다.
 	pGraph->ppAdjEdge[pGraph->currentVertexCount]->headerNode.data = vertexID;
 	pGraph->currentVertexCount++;
 	return (pGraph->currentVertexCount);
@@ -124,6 +121,30 @@ int addEdgeLG(LinkedGraph* pGraph, int fromVertexID, int toVertexID)
 		ㅁ -> ㅁㅁㅁㅁㅁ
 		ㅁ -> ㅁㅁ
 	*/
+	if (pGraph->graphType == GRAPH_UNDIRECTED)
+	{
+		ListNode*	newLinkedNode;
+		// idx는 해당 노드 fromVertexID, toVertexID
+		// node malloc 하여 값을 추가한 뒤 
+		newLinkedNode = malloc(sizeof(ListNode));
+		if (newLinkedNode == NULL)
+			return (NULL);
+		newLinkedNode->data = toVertexID;
+		pGraph->ppAdjEdge[fromVertexID_idx] = newLinkedNode
+
+		newLinkedNode = malloc(sizeof(ListNode));
+		if (newLinkedNode == NULL)
+			return (NULL);
+		// from, to 를 나눠야한다. malloc 실패를 처리한다면.
+		// 그리고 다른 부분에 대해서도 free 필요. 별도 함수 필요.
+		newLinkedNode->data = toVertexID;
+		pGraph->ppAdjEdge[toVertexID_idx] = newLinkedNode
+	}
+	else if (pGraph->graphType == GRAPH_DIRECTED)
+
+	else
+		printf("undefined Graph Type.\n");
+	
 	curListNode = pGraph->ppAdjEdge->headerNode;
 	// curListNode에 없는경우 처리는 어떻게할 것인가?
 	// 별도 함수로 뺴는게 나을 것으로 생각
