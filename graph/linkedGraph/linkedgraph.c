@@ -1,4 +1,5 @@
 #include "linkedgraph.h"
+#include "linkedList.h"
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -40,7 +41,7 @@ int main(void)
 
 	// addVertexLG(mainLinkedGraph, 5);
 	// addEdgeLG(mainLinkedGraph, 5, 3);
-	
+
 	displayLinkedGraph(mainLinkedGraph);
 	
 	return (0);
@@ -330,8 +331,7 @@ int removeEdgeLG(LinkedGraph* pGraph, int fromVertexID, int toVertexID)
 	int			toVertexID_idx;
 	int			removeElement_status;
 
-	if (pGraph == NULL || isEmptyLG(pGraph) == TRUE \ 
-		|| checkVertexValid(pGraph, fromVertexID) == FALSE \
+	if (pGraph == NULL || isEmptyLG(pGraph) || checkVertexValid(pGraph, fromVertexID) == FALSE \
 		|| checkVertexValid(pGraph, toVertexID) == FALSE)
 		return (FALSE);
 	// ¹«¹æÇâ
