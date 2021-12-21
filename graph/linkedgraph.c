@@ -283,13 +283,29 @@ int removeVertexLG(LinkedGraph* pGraph, int vertexID)
 	if (vertexID_idx == -1)
 		return (FALSE);
 	curListNode = pGraph->ppAdjEdge[vertexID_idx]->headerNode;
-	// 나 자신을 가리키는 경우처리?
-	while (curListNode->pLink)
+	// 무방향
+	if (pGraph->graphType == GRAPH_UNDIRECTED)
 	{
-		removeEdgeLG(pGraph, vertexID_idx, curListNode->pLink->data);
-		removeEdgeLG(pGraph, curListNode->pLink->data,vertexID_idx);
-		curListNode = curListNode->pLink;
+		while (curListNode->pLink)
+		{
+			removeEdgeLG(pGraph, vertexID_idx, curListNode->pLink->data);
+			removeEdgeLG(pGraph, curListNode->pLink->data,vertexID_idx);
+			curListNode = curListNode->pLink;
+		}
 	}
+	// 방향
+	else
+	{
+		while (curListNode->pLink)
+		{
+			// 현재 내 입장에서 연결된 간선만 제거
+			// 다른 정점에서 나를 가리키는 경우는 어떻게 하는가?
+			// 일일이 찾아서 제거한다?
+			removeEdgeLG(pGraph, vertexID_idx, curListNode->pLink->data);			
+			curListNode = curListNode->pLink;
+		}
+	}
+	// 내 정점을 순회로 찾은 다음에 NOT_USED처리
 	for (int i = 0; i < pGraph->maxVertexCount; i++)
 	{
 		if (vertexID == pGraph->pVertex[i])
@@ -367,10 +383,12 @@ void deleteGraphNode(LinkedList* pList, int delVertexID)
 {
 	/*
 		왜 파라미터가 LinkedList인가?
+		지우고자하는 vertex와 연결된 link를 지운다.
+		그러면 현재 이 파일에서 removeEdge와 겹친다.
+		그러므로 별도 구현하지 않는다.
 	*/
 	if (pList == NULL)
-		exit(EXIT_FAILURE);
-	
+		exit(EXIT_FAILURE);	
 }
 
 // 그래프 삭제
@@ -379,13 +397,16 @@ void deleteLinkedGraph(LinkedGraph* pGraph)
 	int	idx;
 	if (pGraph == NULL || isEmptyLG(pGraph))
 		exit(EXIT_FAILURE);
-	// deleteGraphNode();
 	idx = 0;
 	while (pGraph->currentVertexCount > 0)
 	{
 		removeVertexLG(pGraph,pGraph->pVertex[idx]);
 		idx++;
 	}
+	for (int i=0; i<pGraph->maxVertexCount; i++)
+		free(pGraph->ppAdjEdge[i]);
+	free(pGraph->ppAdjEdge);
+	free(pGraph->pVertex);
 	free(pGraph);
 	pGraph = NULL;
 }
