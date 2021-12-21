@@ -8,6 +8,15 @@
 		ï¿½×·ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ÈµÇ´Â°ï¿½?
 		ï¿½×·ï¿½ï¿½Ù¸ï¿½ graphï¿½ï¿½ ï¿½Ñ¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ò¶ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Â°ï¿½?
 	- direc, undirec ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½î¶»ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Î°ï¿½?
+	- ÀÎÁ¢¸®½ºÆ®
+	- °¢ ³ëµåº°·Î ÀÎÁ¢ÇÑ ¸®½ºÆ®µéÀ» Ç¥ÇöÇÑ´Ù.
+	- ½Ã°£º¹Àâµµ
+		- Å½»ö
+			- ³ëµå(V)¿¡ ¿¬°áµÈ °£¼±(E)¸¸Å­			
+		- »èÁ¦
+			- ³ëµå¸¦ Ã£¾Æ¼­ ¿¬°áµÈ °£¼± Áß ¾î¶² °£¼±À» ²÷À»Áö ¿¬°á¸®½ºÆ® ¼øÈ¸·Î Ã£¾Æ¾ßÇÑ´Ù.
+		- »ðÀÔ
+			- ³ëµå¸¦ Ã£¾Æ¼­ ¿¬°áµÈ °£¼± Áß ¾î¶² °£¼±À» ²÷À»Áö ¿¬°á¸®½ºÆ® ¼øÈ¸·Î Ãß°¡
 */
 
 int main(void)
@@ -62,7 +71,7 @@ LinkedGraph* createLinkedGraph(int maxVertexCount, int graphType)
 	if (newLinkedGraph == NULL)
 		return (NULL);
 	// vertexï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å­ linkedlist 1ï¿½ï¿½ï¿½ï¿½ ï¿½è¿­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ò´ï¿½
-	// vertexï¿½ï¿½ï¿½Ù°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ nodeï¿½ï¿½ Ç¥ï¿½ï¿½ï¿½Ï¹Ç·ï¿½ ï¿½ï¿½Ã³ï¿½ï¿½ createï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½
+	// vertexï¿½ï¿½ï¿½Ù°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿? nodeï¿½ï¿½ Ç¥ï¿½ï¿½ï¿½Ï¹Ç·ï¿½ ï¿½ï¿½Ã³ï¿½ï¿½ createï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½
 	/* e.g)
 	 ï¿½ï¿½ -> ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 ï¿½ï¿½ -> ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
@@ -70,7 +79,7 @@ LinkedGraph* createLinkedGraph(int maxVertexCount, int graphType)
 	 ï¿½ï¿½ -> ï¿½ï¿½
 	 ï¿½ï¿½ -> NULL	
 	*/
-	// maxVertexCount ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å­ newLinkedList ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½.
+	// maxVertexCount ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å­ newLinkedList ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿?.
 	newLinkedListPtr = (LinkedList**)malloc(sizeof(LinkedList*) * maxVertexCount);	
 	if (newLinkedListPtr == NULL)
 	{
@@ -95,7 +104,7 @@ LinkedGraph* createLinkedGraph(int maxVertexCount, int graphType)
 	// Vertex ï¿½ß°ï¿½ 1ï¿½ï¿½ï¿½ï¿½ array list
 	newVertex = (int*)malloc(sizeof(int) * maxVertexCount);
 	/*
-	- ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ò´ï¿½ï¿½ï¿½ 1ï¿½ï¿½ï¿½ï¿½ linked list free
+	- ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿? ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ò´ï¿½ï¿½ï¿½ 1ï¿½ï¿½ï¿½ï¿½ linked list free
 	- 2ï¿½ï¿½ï¿½ï¿½linked list pointer free
 	- graphï¿½ï¿½ï¿½ï¿½ free
 	*/
@@ -125,7 +134,7 @@ int isEmptyLG(LinkedGraph* pGraph)
 	return (FALSE);
 }
 
-// ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
+// ï¿½ï¿½ï¿? ï¿½ß°ï¿½
 int addVertexLG(LinkedGraph* pGraph, int vertexID)
 {
 	int*		newVertex;
@@ -161,11 +170,11 @@ int addVertexLG(LinkedGraph* pGraph, int vertexID)
 int addEdgeLG(LinkedGraph* pGraph, int fromVertexID, int toVertexID)
 {
 	/*
-		linked listï¿½ï¿½ ï¿½Ì¿ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½
+		linked listï¿½ï¿½ ï¿½Ì¿ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿?
 		fromï¿½ï¿½ï¿½ï¿½ toï¿½ï¿½ ï¿½ß°ï¿½
 		fromï¿½ï¿½ ï¿½î¶»ï¿½ï¿½ Ã£ï¿½Â°ï¿½?
 		ï¿½ßºï¿½ï¿½ï¿½ ï¿½î¶»ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Î°ï¿½?
-		ï¿½Å°ï¿½È¾ï¿½ï¿½ï¿½ ï¿½ßºï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î°ï¿½?
+		ï¿½Å°ï¿½È¾ï¿½ï¿½ï¿? ï¿½ßºï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î°ï¿??
 		2ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ppAdjEdgeï¿½ï¿½ï¿½ï¿½ from vertexï¿½ï¿½ Ã£ï¿½Â´ï¿½.
 		fromï¿½ï¿½ to vertexï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ñ´ï¿½.
 		Linked List ï¿½È¿ï¿½ Linked Listï¿½ï¿½ ï¿½Ö´ï¿½.
@@ -184,10 +193,10 @@ int addEdgeLG(LinkedGraph* pGraph, int fromVertexID, int toVertexID)
 	if (pGraph == NULL || checkVertexValid(pGraph, fromVertexID) == FALSE || \
 		checkVertexValid(pGraph, toVertexID) == FALSE)
 		return (FALSE);
-	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½×·ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½×·ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿? ï¿½ï¿½ï¿½ï¿½
 	if (pGraph->graphType == GRAPH_UNDIRECTED)
 	{
-		// idxï¿½ï¿½ ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½ fromVertexID, toVertexID
+		// idxï¿½ï¿½ ï¿½Ø´ï¿½ ï¿½ï¿½ï¿? fromVertexID, toVertexID
 		// fromVertexID_idx Ã£ï¿½ï¿½ ï¿½ï¿½ fromVertexID -> toVertexID ï¿½ï¿½ï¿½ï¿½
 		if (chainingEdge(pGraph, fromVertexID, toVertexID) == FALSE)
 			return (FALSE);
@@ -195,7 +204,7 @@ int addEdgeLG(LinkedGraph* pGraph, int fromVertexID, int toVertexID)
 		if (chainingEdge(pGraph, toVertexID, fromVertexID) == FALSE)
 			return (FALSE);
 	}
-	//	ï¿½ï¿½ï¿½ï¿½×·ï¿½ï¿½ï¿½ï¿½Ï‹ï¿½, ï¿½Ü¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î¸ï¿½ ï¿½ï¿½ï¿½ï¿½
+	//	ï¿½ï¿½ï¿½ï¿½×·ï¿½ï¿½ï¿½ï¿½?‹ï¿½, ï¿½Ü¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î¸ï¿½ ï¿½ï¿½ï¿½ï¿½
 	else if (pGraph->graphType == GRAPH_DIRECTED)
 	{
 		if (chainingEdge(pGraph, fromVertexID, toVertexID) == FALSE)
@@ -219,8 +228,8 @@ int	chainingEdge(LinkedGraph* pGraph, int fromVertexID, int toVertexID)
 	if (fromVertexID_idx == -1)
 			return (FALSE);
 	ListNodeElement.data = toVertexID;
-	// ï¿½ï¿½ -> ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½á¸®ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½ï¿½ï¿½ ï¿½Ì¿ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Î¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ú¿ï¿½ ï¿½ï¿½ï¿½ï¿½Çµï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½
-	// ï¿½Ä¶ï¿½ï¿½ï¿½ï¿½ pList, position, element ï¿½ï¿½ï¿½ï¿½
+	// ï¿½ï¿½ -> ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½á¸®ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½ï¿½ï¿½ ï¿½Ì¿ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Î¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ú¿ï¿½ ï¿½ï¿½ï¿½ï¿½Çµï¿½ï¿½ï¿? ï¿½Ñ´ï¿½
+	// ï¿½Ä¶ï¿½ï¿½ï¿½ï¿? pList, position, element ï¿½ï¿½ï¿½ï¿½
 	addElement_status = addLLElement(pGraph->ppAdjEdge[fromVertexID_idx], \
 					pGraph->ppAdjEdge[fromVertexID_idx]->currentElementCount, \
 					ListNodeElement);
@@ -242,23 +251,23 @@ int addEdgewithWeightLG(LinkedGraph* pGraph, int fromVertexID, int toVertexID, i
 	return (pGraph->currentEdgeCount);
 }
 
-// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¿ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
+// ï¿½ï¿½ï¿½ï¿½ï¿? ï¿½ï¿½È¿ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 int checkVertexValid(LinkedGraph* pGraph, int vertexID)
 {
 	/*
 		ï¿½ï¿½È¿ï¿½ï¿½ï¿½Ì¶ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Î°ï¿½?
 		ï¿½ï¿½È¯ï¿½Ï´ï¿½ï¿½ï¿½ ï¿½Æ´ï¿½ï¿½ï¿½ ï¿½Îºï¿½?
 		used, not used
-		- ï¿½ï¿½ï¿½ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½		
+		- ï¿½ï¿½ï¿½ï¿½ï¿½Ã¼ï¿½ï¿? ï¿½Ö´ï¿½ï¿½ï¿½		
 		- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½
-		  ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½Ö´ï¿½ï¿½ï¿½
+		  ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½Ö´ï¿½ï¿½ï¿?
 	*/
 	int idx;
 
 	if (pGraph == NULL)
 		return (FALSE);
 	idx = 0;
-	// vertexIDï¿½ï¿½ 0ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½. pVertex[idx]ï¿½ï¿½ ï¿½Ð¸ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½
+	// vertexIDï¿½ï¿½ 0ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿? ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½. pVertex[idx]ï¿½ï¿½ ï¿½Ð¸ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½
 	while (pGraph->currentVertexCount > idx)
 	{
 		if (pGraph->pVertex[idx] == vertexID)
@@ -268,12 +277,12 @@ int checkVertexValid(LinkedGraph* pGraph, int vertexID)
 	return (FALSE);
 }
 
-// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+// ï¿½ï¿½ï¿? ï¿½ï¿½ï¿½ï¿½
 int removeVertexLG(LinkedGraph* pGraph, int vertexID)
 {
 	/*
-		Nodeï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å©ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
-		ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½Â´ï¿½.
+		Nodeï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿? ï¿½ï¿½Å©ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿? ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½Â´ï¿½.
 	*/
 	int			vertexID_idx;
 	ListNode*	curListNode;
@@ -299,7 +308,7 @@ int removeVertexLG(LinkedGraph* pGraph, int vertexID)
 	{
 		while (curListNode->pLink)
 		{
-			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½å¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½å¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿? ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			// ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½î¶»ï¿½ï¿½ ï¿½Ï´Â°ï¿½?
 			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½Æ¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½?
 			removeEdgeLG(pGraph, vertexID_idx, curListNode->pLink->data);			
@@ -313,7 +322,7 @@ int removeVertexLG(LinkedGraph* pGraph, int vertexID)
 			pGraph->pVertex[i] = NOT_USED;
 	}
 	// pGraph->currentVertexCount ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½Ú¿ï¿½ï¿½Ö´ï¿½ idxï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½.
-	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò·ï¿½ï¿½ï¿½ array list resizeï¿½Ï°Å³ï¿½
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò·ï¿½ï¿½ï¿? array list resizeï¿½Ï°Å³ï¿½
 	// vertexï¿½ï¿½ï¿½åµµ linked listï¿½ï¿½ ï¿½Ñ´ï¿½
 	// removeEdgeLG(pGraph, int fromVertexID, int toVertexID)
 	pGraph->currentVertexCount--;
@@ -382,8 +391,8 @@ int removeEdgeLG(LinkedGraph* pGraph, int fromVertexID, int toVertexID)
 void deleteGraphNode(LinkedList* pList, int delVertexID)
 {
 	/*
-		ï¿½ï¿½ ï¿½Ä¶ï¿½ï¿½ï¿½Í°ï¿½ LinkedListï¿½Î°ï¿½?
-		ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ vertexï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ linkï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½.
+		ï¿½ï¿½ ï¿½Ä¶ï¿½ï¿½ï¿½Í°ï¿? LinkedListï¿½Î°ï¿½?
+		ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿? vertexï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿? linkï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿?.
 		ï¿½×·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Ï¿ï¿½ï¿½ï¿½ removeEdgeï¿½ï¿½ ï¿½ï¿½Ä£ï¿½ï¿½.
 		ï¿½×·ï¿½ï¿½Ç·ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 	*/
@@ -423,7 +432,7 @@ int findGraphNodePosition(LinkedGraph* pGraph, int vertexID)
 		ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ headerï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å³ ï¿½×°ï¿½ï¿½Ì´ï¿½.
 		ï¿½Û¿ï¿½ï¿½ï¿½ findGraphNodePosition(pGraph->ppAdjEdge) ï¿½Ì·ï¿½ï¿½ï¿½ ï¿½Ñ±ï¿½ ï¿½ï¿½ï¿½Ö´Â°ï¿½?
 		ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ pGraph->ppAdjEdge ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¶ï¿½ ï¿½È¸ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
-		ï¿½×·ï¿½ï¿½Ù°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ pGraph->ppAdjEdge ï¿½Ì±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í·ï¿½ ï¿½Ñ±ï¿½Â°ï¿½ ï¿½ð¸£Ù´ï¿½.
+		ï¿½×·ï¿½ï¿½Ù°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ pGraph->ppAdjEdge ï¿½Ì±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í·ï¿½ ï¿½Ñ±ï¿½Â°ï¿? ï¿½ð¸£Ù´ï¿½.
 		1, ï¿½ï¿½ -> ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		ï¿½ï¿½
 		ï¿½ï¿½
@@ -444,14 +453,14 @@ int findGraphNodePosition(LinkedGraph* pGraph, int vertexID)
 	return (vertexID_idx);	
 }
 
-// ï¿½×·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+// ï¿½×·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿?
 void displayLinkedGraph(LinkedGraph* pGraph)
 {
 	/*
-		ï¿½ï¿½åº°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Íµï¿½ ï¿½ï¿½ï¿½
-		ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½â¼º ï¿½ï¿½ï¿½Î¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
-		ï¿½î¶² ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½Ö´ï¿½ï¿½ï¿½?
-		ï¿½ï¿½ï¿½â¼º ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½.
+		ï¿½ï¿½åº°ï¿½ï¿? ï¿½ï¿½ï¿½ï¿½ï¿? ï¿½Íµï¿½ ï¿½ï¿½ï¿?
+		ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½â¼º ï¿½ï¿½ï¿½Î¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿?
+		ï¿½î¶² ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½Ö´ï¿½ï¿½ï¿??
+		ï¿½ï¿½ï¿½â¼º ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿? ï¿½ï¿½ï¿?.
 	*/
 	printf("in displayLinkedGraph \n");
 	if (pGraph == NULL || pGraph->maxVertexCount <= 0 || \
@@ -478,7 +487,7 @@ int getEdgeCountLG(LinkedGraph* pGraph)
 	return (pGraph->currentEdgeCount);
 }
 
-// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯
+// ï¿½ï¿½ï¿? ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯
 int getVertexCountLG(LinkedGraph* pGraph)
 {
 	if (pGraph == NULL)
@@ -486,7 +495,7 @@ int getVertexCountLG(LinkedGraph* pGraph)
 	return (pGraph->currentVertexCount);
 }
 
-// ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯
+// ï¿½Ö´ï¿½ ï¿½ï¿½ï¿? ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯
 int getMaxVertexCountLG(LinkedGraph* pGraph)
 {
 	if (pGraph == NULL)
