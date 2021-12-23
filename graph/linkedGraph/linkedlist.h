@@ -35,7 +35,7 @@ ListNode* getLLElement(LinkedList* pList, int position);
 
 void clearLinkedList(LinkedList* pList);
 int getLinkedListLength(LinkedList* pList);
-void deleteLinkedList(LinkedList* pList);
+void deleteLinkedList(LinkedList** pList);
 void displayLinkedList(LinkedList* pList);
 
 /* add polynomial

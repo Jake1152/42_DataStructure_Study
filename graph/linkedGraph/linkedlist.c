@@ -4,22 +4,45 @@
 
 static LinkedList	*reverseLinkedList(LinkedList* pList);
 
-// int main()
-// {
-// 	LinkedList*	mainLinkedList;
-// 	ListNode 	element;
+/*
 
-	// mainLinkedList = createLinkedList();
-	// for (int i = 0; i < 10; i++)
-	// {
-	// 	element.data = i;
-	// 	printf("addLLElement(mainLinkedList, i, element) : %d\n", addLLElement(mainLinkedList, i, element));
-	// }
-	// printf("currentElementCount : %d\n", mainLinkedList->currentElementCount);
+int main()
+{
+	LinkedList*	mainLinkedList;
+	ListNode 	element;
+
+	mainLinkedList = createLinkedList();
+	for (int i = 0; i < 10; i++)
+	{
+		element.data = i;
+		printf("addLLElement(mainLinkedList, i, element) : %d\n", addLLElement(mainLinkedList, i, element));
+	}
+	printf("currentElementCount : %d\n", mainLinkedList->currentElementCount);
+	displayLinkedList(mainLinkedList);
+	for (int i = 4; i < 6; i++)
+		printf("removeLLElement(mainLinkedList, i) : %d\n", removeLLElement(mainLinkedList, i));
+	printf("currentElementCount : %d\n", mainLinkedList->currentElementCount);
+	displayLinkedList(mainLinkedList);
+	// clearLinkedList(mainLinkedList);
+	// printf("after clearLinkedList\n");
 	// displayLinkedList(mainLinkedList);
-	
-// 	return (0);
-// }
+	printf("mainLinkedList pointer address : %p\n", mainLinkedList);
+	printf("mainLinkedList pointer : %x\n", mainLinkedList);
+	clearLinkedList(mainLinkedList);// double pointer	
+	printf("after clearLinkedList\n");
+	printf("mainLinkedList pointer address : %p\n", mainLinkedList);
+	printf("mainLinkedList pointer : %x\n", mainLinkedList);
+	displayLinkedList(mainLinkedList);
+	element.data = 42;
+	printf("addLLElement(mainLinkedList, i, element) : %d\n", addLLElement(mainLinkedList, 0, element));
+	printf("getLinkedListLength(mainLinkedList) : %d\n", getLinkedListLength(mainLinkedList));
+	displayLinkedList(mainLinkedList);
+	printf("done\n");
+
+	return (0);
+}
+
+*/
 
 LinkedList	*createLinkedList()
 {
@@ -43,7 +66,7 @@ int getLinkedListLength(LinkedList* pList)
 	if (pList == NULL)
 		return (FALSE);
 	l_size = 0;
-	curLinkedNode = pList->headerNode->pLink;
+	curLinkedNode = pList->headerNode;
 	// ListNode headerNode.;
 	// struct ListNodeType* pLink;
 	while (curLinkedNode)
@@ -65,7 +88,6 @@ ListNode*	getLLElement(LinkedList* pList, int position)
 		return (NULL);
 	idx = 0;
 	curListNode = pList->headerNode;
-	// 왜 headerNode.pLink 인가 "->pLink"가 아니라?
 	while(idx < position)
 	{
 		curListNode = curListNode->pLink;
@@ -122,21 +144,32 @@ int removeLLElement(LinkedList* pList, int position)
 		- header가 가리키는것 변경
 	*/
 	ListNode	*prevListNode;
+	ListNode	*delListNode;
+	ListNode	*now;
+	ListNode	*prev;
+	int			prev_idx;
 
 	if (pList == NULL)
 		return (FALSE);
 	if (position >= pList->currentElementCount)
 		return (FALSE);
+	prev_idx = position - 1;
 	if (position == 0)
-		free(getLLElement(pList, position));
-		// x 길이가 2 이상이면 첫번쨰만 소실
-		// header가 가리키는 것에 문제 발생
-		
+		prev_idx = 0;
+	if (pList->currentElementCount == 1)
+	{
+		free(pList->headerNode);
+		pList->headerNode = NULL;
+	}
 	else
 	{
-		prevListNode = (getLLElement(pList, position - 1));
+		prevListNode = getLLElement(pList, prev_idx);
+		delListNode = prevListNode->pLink;
 		prevListNode->pLink = prevListNode->pLink->pLink;
-		free(prevListNode->pLink);
+		free(delListNode);
+		// dangling 방지를 할 필요가 있는가?// dangling 방지를 할 필요가 있는가?
+		delListNode = NULL;
+		
 	}
 	pList->currentElementCount--;
 	return (TRUE);
@@ -149,24 +182,14 @@ void clearLinkedList(LinkedList* pList)
 		currentElementCount 0으로 바꾸어야하는가?
 		
 	*/
-	ListNode	*curListNode;
-	ListNode	*delListNode;
-
-	if (pList == NULL)
-		exit(EXIT_FAILURE);
-	if (pList->currentElementCount == 0)
-		exit(EXIT_FAILURE);
-	curListNode = getLLElement(pList, 0);
-	while (curListNode)
-	{
-		delListNode = curListNode;
-		curListNode = curListNode->pLink;
-		free(delListNode);
-		delListNode = NULL;
-	}
+	if (pList == NULL || pList->currentElementCount <= 0)
+		// exit(EXIT_FAILURE);
+		return ;
+	while (pList->currentElementCount)
+		removeLLElement(pList, 0);
 }
 
-void deleteLinkedList(LinkedList* pList)
+void deleteLinkedList(LinkedList** pList)
 {
 	/*
 		전부 free
@@ -177,23 +200,11 @@ void deleteLinkedList(LinkedList* pList)
 		그런데 void가 아닐때 별도 처리하게 하면 일관성이 없다.
 		어떻게 하는게 좀더 일관적이면 나을 것인가?
 	*/
-	ListNode	*curListNode;
-	ListNode	*deletedListNode;
-
-	if (pList == NULL)
-		exit(EXIT_FAILURE);
-	if (pList->currentElementCount == 0)
-		exit(EXIT_FAILURE);
-	curListNode = getLLElement(pList, 0);
-	while (curListNode)
-	{
-		deletedListNode = curListNode;
-		curListNode = curListNode->pLink;
-		free(deletedListNode);
-	}
-	pList->currentElementCount = 0;
-	free(pList);
-	pList = NULL;
+	clearLinkedList(*pList);
+	free(*pList);
+	// pList->headerNode = malloc(sizeof(ListNode));
+	// pList->headerNode->data = 42;
+	*pList = NULL;
 }
 
 static LinkedList	*reverseLinkedList(LinkedList* pList)
@@ -226,8 +237,10 @@ void	displayLinkedList(LinkedList* pList)
 	ListNode*	curListNode;
 
 	// pList->headerNode == NULL 왜 error인가?
-	if (pList == NULL)
-		exit(EXIT_FAILURE);	
+	if (pList == NULL || pList->currentElementCount <= 0)
+		return ;
+		// exit(EXIT_FAILURE);
+	printf("pList->currentElementCount : %d\n", pList->currentElementCount);
 	curListNode = pList->headerNode;
 	printf("display linked list : \n");
 	while (curListNode->pLink)
@@ -293,3 +306,4 @@ DS 배우는 이유
 	- 
 
 */
+

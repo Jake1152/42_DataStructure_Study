@@ -30,6 +30,20 @@ int main(void)
     addEdgeLG(pGraph,5,3);
     displayLinkedGraph(pGraph);
 
+	printf("after remove  3, 2\n");
+    removeEdgeLG(pGraph,3,2);
+    displayLinkedGraph(pGraph);
+    printf("after remove  2, 0\n");
+    removeEdgeLG(pGraph,2,0);
+    displayLinkedGraph(pGraph);
+    printf("vertex ÃÑ°³¼ö\n");
+    printf("%d\n", getVertexCountLG(pGraph));
+    printf("°£¼± ÃÑ °³¼ö \n");
+    printf("%d\n",getEdgeCountLG(pGraph));
+    printf("4³ëµå Á¦°Å\n");
+    removeVertexLG(pGraph,4);
+    displayLinkedGraph(pGraph);
+
 	// addVertexLG(mainLinkedGraph, 1);
 	// addEdgeLG(mainLinkedGraph, 1, 2);
 
@@ -142,7 +156,6 @@ int addEdgeLG(LinkedGraph* pGraph, int fromVertexID, int toVertexID)
 					ListNodeElement);
 	if (addElement_status == FALSE)
 		return (FALSE);
-	pGraph->currentEdgeCount++;
 	// to -> from linked when it is undirected
 	if (pGraph->graphType == GRAPH_UNDIRECTED)
 	{
@@ -152,8 +165,8 @@ int addEdgeLG(LinkedGraph* pGraph, int fromVertexID, int toVertexID)
 						ListNodeElement);
 		if (addElement_status == FALSE)
 			return (FALSE);
-		pGraph->currentEdgeCount++;
 	}
+	pGraph->currentEdgeCount++;
 	return (pGraph->currentEdgeCount);
 }
 
@@ -184,31 +197,16 @@ int removeVertexLG(LinkedGraph* pGraph, int vertexID)
 
 	if (pGraph == NULL || isEmptyLG(pGraph) || checkVertexValid(pGraph, vertexID))
 		return (FALSE);
-	vertexID_idx = findGraphNodePosition(pGraph, vertexID);
-	if (vertexID_idx == -1)
+	if (pGraph->graphType != GRAPH_UNDIRECTED && pGraph->graphType != GRAPH_DIRECTED)
 		return (FALSE);
-	curListNode = pGraph->ppAdjEdge[vertexID_idx]->headerNode;
-	if (pGraph->graphType == GRAPH_UNDIRECTED)
+	while (curListNode && pGraph->ppAdjEdge[vertexID]->currentElementCount)
 	{
-		while (curListNode->pLink)
-		{
-			removeEdgeLG(pGraph, vertexID_idx, curListNode->pLink->data);
-			removeEdgeLG(pGraph, curListNode->pLink->data,vertexID_idx);
-			curListNode = curListNode->pLink;
-		}
-	}
-	else
-	{
-		while (curListNode->pLink)
-		{
-			removeEdgeLG(pGraph, vertexID_idx, curListNode->pLink->data);			
-			curListNode = curListNode->pLink;
-		}
-	}
-	for (int i = 0; i < pGraph->maxVertexCount; i++)
-	{
-		if (vertexID == pGraph->pVertex[i])
-			pGraph->pVertex[i] = NOT_USED;
+		/*
+			 0 1 2 3 4
+			 2 -> 0 3 4 
+		*/
+		removeEdgeLG(pGraph, vertexID, curListNode->data);
+		curListNode = curListNode->pLink;
 	}
 	pGraph->currentVertexCount--;
 	return ( pGraph->currentVertexCount);
@@ -216,66 +214,39 @@ int removeVertexLG(LinkedGraph* pGraph, int vertexID)
 
 int removeEdgeLG(LinkedGraph* pGraph, int fromVertexID, int toVertexID)
 {
-	int			fromVertexID_idx;
-	int			toVertexID_idx;
 	int			removeElement_status;
+	int			position;
 
 	if (pGraph == NULL || isEmptyLG(pGraph) || checkVertexValid(pGraph, fromVertexID) == FALSE \
 		|| checkVertexValid(pGraph, toVertexID) == FALSE)
 		return (FALSE);
+	if (pGraph->graphType != GRAPH_UNDIRECTED &&\
+		 pGraph->graphType != GRAPH_DIRECTED)
+		return (FALSE);
+	deleteGraphNode(pGraph->ppAdjEdge[fromVertexID], toVertexID);
 	if (pGraph->graphType == GRAPH_UNDIRECTED)
-	{
-		// fromVertexID -> toVertexID
-		fromVertexID_idx = findGraphNodePosition(pGraph, fromVertexID);
-		if (fromVertexID_idx == -1)
-			return (FALSE);
-		removeElement_status = removeLLElement(pGraph->ppAdjEdge[fromVertexID_idx], \
-						pGraph->ppAdjEdge[fromVertexID_idx]->currentElementCount);
-		if (removeElement_status == FALSE)
-			return (FALSE);
-		pGraph->currentEdgeCount--;
-
-		// toVertexID -> fromVertexID
-		toVertexID_idx = findGraphNodePosition(pGraph, toVertexID);
-		if (toVertexID_idx == -1)
-			return (FALSE);
-		removeElement_status = removeLLElement(pGraph->ppAdjEdge[toVertexID_idx], \
-						pGraph->ppAdjEdge[toVertexID_idx]->currentElementCount);
-		if (removeElement_status == FALSE)
-			return (FALSE);
-		pGraph->currentEdgeCount--;
-	}
-	// ï¿½ï¿½ï¿½ï¿½
-	else if (pGraph->graphType == GRAPH_DIRECTED)
-	{
-		// fromVertexID -> toVertexID
-		fromVertexID_idx = findGraphNodePosition(pGraph, fromVertexID);
-		if (fromVertexID_idx == -1)
-			return (FALSE);
-		removeElement_status = removeLLElement(pGraph->ppAdjEdge[fromVertexID_idx], \
-						pGraph->ppAdjEdge[fromVertexID_idx]->currentElementCount);
-		if (removeElement_status == FALSE)
-			return (FALSE);
-		pGraph->currentEdgeCount--;
-	}
-	else
-	{
-		printf("undefined graph type.\n");
-		exit(EXIT_FAILURE);
-	}
-	
+		deleteGraphNode(pGraph->ppAdjEdge[toVertexID], fromVertexID);
+	pGraph->currentEdgeCount--;
 	return (pGraph->currentEdgeCount);
 }
 
 void deleteGraphNode(LinkedList* pList, int delVertexID)
 {
-	if (pList == NULL)
-		exit(EXIT_FAILURE);	
+	int	position;
+
+	if (pList == NULL || pList->currentElementCount <= 0)
+	{
+		printf("there are no graph node to delete\n");
+		return ;
+	}
+	// removeLLElement ÀßµÇ´ÂÁö È®ÀÎ ÇÊ¿ä
+	removeLLElement(pList, position);
 }
 
 void deleteLinkedGraph(LinkedGraph* pGraph)
 {
 	int	idx;
+
 	if (pGraph == NULL || isEmptyLG(pGraph))
 		exit(EXIT_FAILURE);
 	idx = 0;
@@ -292,21 +263,23 @@ void deleteLinkedGraph(LinkedGraph* pGraph)
 	pGraph = NULL;
 }
 
-int findGraphNodePosition(LinkedGraph* pGraph, int vertexID)
+int findGraphNodePosition(LinkedList* pList, int vertexID)
 {
-	int	vertexID_idx;
+	ListNode*	curListNode;
+	int			position;
 
-	if (pGraph == NULL || checkVertexValid(pGraph, vertexID) == FALSE)
+	if (pList == NULL)
 		return (-1);
-	for (int i = 0; i< pGraph->currentVertexCount; i++)
+	curListNode = pList->headerNode;
+	position = 0;
+	while (curListNode)
 	{
-		if (pGraph->ppAdjEdge[i]->headerNode->data == vertexID)
-		{
-			vertexID_idx = i;
-			break ;
-		}
+		if (curListNode->data == vertexID)
+			return (position);
+		curListNode = curListNode->pLink;
+		position++;
 	}
-	return (vertexID_idx);	
+	return (-1);
 }
 
 void displayLinkedGraph(LinkedGraph* pGraph)
