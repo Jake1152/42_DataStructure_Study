@@ -5,12 +5,12 @@
 
 typedef struct LinkedGraphType 
 {
-	int maxVertexCount;		// �ִ� ���?? ����
-	int currentVertexCount;	// ���� ���Ǵ� �����?? ����
+	int maxVertexCount;		// �ִ� ���?? ����
+	int currentVertexCount;	// ���� ���Ǵ� �����?? ����
 	int currentEdgeCount;	// ���� ������ ����.
 	int graphType;			// �׷��� ����: 1-Undirected, 2-Directed
 	LinkedList** ppAdjEdge;	// ���� ������ ���� ���� ����Ʈ (������)�� �迭
-	int *pVertex;			// ���?? ������ ���� 1���� �迭
+	int *pVertex;			// ���?? ������ ���� 1���� �迭
 } LinkedGraph;
 
 // �׷��� ����
@@ -22,7 +22,7 @@ void deleteLinkedGraph(LinkedGraph* pGraph);
 // ���� �׷��� ���� �Ǵ�
 int isEmptyLG(LinkedGraph* pGraph);
 
-// ���?? �߰�
+// ���?? �߰�
 int addVertexLG(LinkedGraph* pGraph, int vertexID);
 
 // ���� �߰�
@@ -30,10 +30,10 @@ int addEdgeLG(LinkedGraph* pGraph, int fromVertexID, int toVertexID);
 int addEdgewithWeightLG(LinkedGraph* pGraph, int fromVertexID, int toVertexID, int weight);
 // int	
 // ListNode*	getVertex();
-// �����?? ��ȿ�� ����.
+// �����?? ��ȿ�� ����.
 int checkVertexValid(LinkedGraph* pGraph, int vertexID);
 
-// ���?? ����
+// ���?? ����
 int removeVertexLG(LinkedGraph* pGraph, int vertexID);
 
 // ���� ����
@@ -44,16 +44,16 @@ int findGraphNodePosition(LinkedList* pList, int vertexID);
 // ���� ���� ��ȯ
 int getEdgeCountLG(LinkedGraph* pGraph);
 
-// ���?? ���� ��ȯ
+// ���?? ���� ��ȯ
 int getVertexCountLG(LinkedGraph* pGraph);
 
-// �ִ� ���?? ���� ��ȯ
+// �ִ� ���?? ���� ��ȯ
 int getMaxVertexCountLG(LinkedGraph* pGraph);
 
 // �׷��� ���� ��ȯ.
 int getGraphTypeLG(LinkedGraph* pGraph);
 
-// �׷��� ���� ���??
+// �׷��� ���� ���??
 void displayLinkedGraph(LinkedGraph* pGraph);
 #endif
 

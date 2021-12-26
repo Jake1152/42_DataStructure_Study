@@ -240,9 +240,9 @@ void	displayLinkedList(LinkedList* pList)
 	if (pList == NULL || pList->currentElementCount <= 0)
 		return ;
 		// exit(EXIT_FAILURE);
-	printf("pList->currentElementCount : %d\n", pList->currentElementCount);
+	// printf("pList->currentElementCount : %d\n", pList->currentElementCount);
 	curListNode = pList->headerNode;
-	printf("display linked list : \n");
+	// printf("display linked list : \n");
 	while (curListNode->pLink)
 	{
 		printf("%d -> ", curListNode->data);

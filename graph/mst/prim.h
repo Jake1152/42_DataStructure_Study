@@ -9,3 +9,4 @@ LinkedList*		selectEdge(LinkedGraph* pGraph);
 LinkedGraph*	prim(LinkedGraph* pGraph);
 
 #endif
+

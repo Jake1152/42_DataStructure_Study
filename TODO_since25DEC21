@@ -1,0 +1,45 @@
+- list error test
+    - 삭제부터 진행해보기
+- doubly list, reverse list test
+- stack
+    - stack 미로찾기 debuging
+- queue
+    - queue test
+    - doubly, circle queue
+    - simulation test
+- tree
+    - binary tree test
+    - binary search tree test
+    - heap implementation
+- graph
+    - array graph implemenation & test
+    - linked graph remove part debug
+    - graph travelsal
+
+- advance graph
+    array graph, linked graph 둘다 이용할 것
+    - mst
+        - kruskal
+        - prim
+    - shortest path 
+        - dijkstra
+        - washall
+        - bellman forward
+
+- sort
+    - 8 of sorting implementation with test
+    - array and linked
+
+- search
+    - avl
+    - 2-3
+    - red-black
+    - B tree
+    - B+, B-
+- hash
+    - probing
+    - chaning
+
+- security
+    - RSA
+    -  

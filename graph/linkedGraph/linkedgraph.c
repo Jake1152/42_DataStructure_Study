@@ -29,36 +29,20 @@ int main(void)
     addEdgeLG(pGraph,4,5);
     addEdgeLG(pGraph,5,3);
     displayLinkedGraph(pGraph);
-
-	printf("after remove  3, 2\n");
+    printf("after remove  3, 2\n");
     removeEdgeLG(pGraph,3,2);
     displayLinkedGraph(pGraph);
     printf("after remove  2, 0\n");
     removeEdgeLG(pGraph,2,0);
     displayLinkedGraph(pGraph);
-    printf("vertex ÃÑ°³¼ö\n");
+    printf("vertex ì´ê°œìˆ˜\n");
     printf("%d\n", getVertexCountLG(pGraph));
-    printf("°£¼± ÃÑ °³¼ö \n");
+    printf("ê°„ì„  ì´ ê°œìˆ˜ \n");
     printf("%d\n",getEdgeCountLG(pGraph));
-    printf("4³ëµå Á¦°Å\n");
+    printf("4ë…¸ë“œ ì œê±°\n");
     removeVertexLG(pGraph,4);
     displayLinkedGraph(pGraph);
 
-	// addVertexLG(mainLinkedGraph, 1);
-	// addEdgeLG(mainLinkedGraph, 1, 2);
-
-	// addVertexLG(mainLinkedGraph, 2);
-	// addEdgeLG(mainLinkedGraph, 2, 3);
-
-	// addVertexLG(mainLinkedGraph, 3);
-	// addEdgeLG(mainLinkedGraph, 3, 4);
-
-	// addVertexLG(mainLinkedGraph, 4);
-	// addEdgeLG(mainLinkedGraph, 4, 5);
-
-	// addVertexLG(mainLinkedGraph, 5);
-	// addEdgeLG(mainLinkedGraph, 5, 3);
-	
 	return (0);
 }
 
@@ -239,7 +223,7 @@ void deleteGraphNode(LinkedList* pList, int delVertexID)
 		printf("there are no graph node to delete\n");
 		return ;
 	}
-	// removeLLElement ÀßµÇ´ÂÁö È®ÀÎ ÇÊ¿ä
+	// removeLLElement ï¿½ßµÇ´ï¿½ï¿½ï¿½ È®ï¿½ï¿½ ï¿½Ê¿ï¿½
 	removeLLElement(pList, position);
 }
 
@@ -284,7 +268,7 @@ int findGraphNodePosition(LinkedList* pList, int vertexID)
 
 void displayLinkedGraph(LinkedGraph* pGraph)
 {
-	printf("in displayLinkedGraph \n");
+	// printf("in displayLinkedGraph \n");
 	if (pGraph == NULL || pGraph->maxVertexCount <= 0 || \
 		pGraph->currentVertexCount <= 0 || \
 		pGraph->currentEdgeCount <= 0)
@@ -292,13 +276,12 @@ void displayLinkedGraph(LinkedGraph* pGraph)
 		printf("displayLinkedGraph do not display, cause there are nothing.\n");
 		exit(EXIT_FAILURE);
 	}
-	printf("display linked graph : \n\n");
+	// printf("display linked graph : \n\n");
 	for (int idx = 0; idx < pGraph->currentVertexCount; idx++)
 	{
 		if (checkVertexValid(pGraph, idx) == TRUE)
 			displayLinkedList(pGraph->ppAdjEdge[idx]);
-	}
-		
+	}		
 }
 
 int getEdgeCountLG(LinkedGraph* pGraph)
