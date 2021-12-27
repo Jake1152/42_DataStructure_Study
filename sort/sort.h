@@ -33,6 +33,11 @@ void	LinkedListInsertSort(LinkedList *pList, int orderType);
 
 
 // merge sort
+void	arrayListMergeSort(ArrayList *pArray, int orderType);
+void	linkedListMergeSort(LinkedList *pList, int orderType);
+
+void	mergeSort(ArrayList *pArray, int p, int r);
+void    merge(ArrayList *pArray, int p, int q, int r);
 
 
 // shell sort 
