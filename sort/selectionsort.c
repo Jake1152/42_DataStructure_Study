@@ -10,6 +10,7 @@
 	- 정렬순서에 따른 구분
 
 	- 시작은 ASC
+
 	- array list 기준
 
 	- key 값은 무조건 int라는 가정이어야하는가?
@@ -57,6 +58,7 @@ void    arrayListSelectionSort(ArrayList *pArray, int orderType)
 	{
 		/*
 			80 50 70 10 60 20 40 30
+			[10] [50 70 80 60 20 40 30]
 
 			i 부터 size-1까지 순회
 			j는 i+1부터 size중에 가장 작은 값을 찾아서 

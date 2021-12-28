@@ -7,6 +7,8 @@
 		각각의 작은 문제를 순환적으로 해결
 	- 합병
 		작은 문제의 해를 합하여 원래 문제에 대한 해를 구함
+ 80 | 70| 50 | 1 2 5
+70 80	
 */
 
 
@@ -33,28 +35,30 @@ void    merge(ArrayList *pArray, int p, int q, int r)
 	k = p;
 	while (i <= q && j <= r)
 	{
+		// 10 50 70   20 60 80
+		// 10 20 50 60 70 80
 		if (pArray->pElement[i].data <= pArray->pElement[j].data)
 		{
-			tmp[k] = data[i];
+			tmp[k] = pArray->pElement[i].data;
 			k++;
 			i++;
 		}
 		else
 		{
-			tmp[k] = data[j];
+			tmp[k] = pArray->pElement[j].data;
 			k++;
 			j++;
 		}
 	}
 	while (i <= q)
 	{
-		tmp[k] = data[i];
+		tmp[k] = pArray->pElement[i].data;
 		k++;
 		i++;
 	}
 	while (j <= r)
 	{
-		tmp[k] = data[j];
+		tmp[k] = pArray->pElement[j].data;
 		k++;
 		j++;
 	}
@@ -62,17 +66,16 @@ void    merge(ArrayList *pArray, int p, int q, int r)
 	while (i <= r)
 	{
 		pArray->pElement[i].data = tmp[i];
-		i++
+		i++;
 	}
 }
 
-
 void	arrayListMergeSort(ArrayList *pArray, int orderType)
 {
-	continue ;
+	;
 }
 
 void	linkedListMergeSort(LinkedList *pList, int orderType)
 {
-	continue ;
+	;
 }
